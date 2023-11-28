@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" th:href="@{./../css/fcltt/fcltt.css}" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script defer th:src="@{./../js/fcltt/fcltt.js}"></script>
+</head>
+
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+	<div class="wrap">
+
+		<!--메뉴바-->
+		<div id="main_con">
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">조력자확인</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub">
+							<li style="display: block !important;"><a href="/fcltt/fclttList">조력자 등재명단</a></li>
+							<li style="display: block !important;"><a href="/fcltt/pause">조력자 활동신청관리</a></li>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<!--   내용 시작 -->
+			<div id="contents">
+
+				<style>
+					@media screen and (max-width: 1024px) {
+						.table-responsive>table>tbody>tr td[data-cell-header]:before {
+							width: 30%;
+							margin: 0 0 0 0;
+							vertical-align: unset;
+						}
+					}
+
+					.table-responsive>table>tbody>tr:hover {
+						background-color: #e6f8ff;
+
+					}
+
+					@media screen and (min-width: 1100px) {
+						#select-box-margin-left-10 {
+							margin-left: 6px;
+						}
+					}
+				</style>
+
+				<article id="detail-content">
+					<form id="listForm" action="pause" name="listForm" method="get">
+						<div class="heading-wrap container">
+							<h3 class="heading1">
+								<span>재판조력자 중지 / 활동 신청목록</span>
+							</h3>
+						</div>
+
+						<!-- 본문컨텐츠 영역 -->
+						<div class="container">
+
+							<hr />
+							<div class="fclttSearch_wrap">
+								<div class="fclttSearch_content2">
+									<select name="searchAccept_act_yn" id="selectedValue"
+										class="fclttSearch fclttSearch3">
+										<option value="">신청사항</option>
+										<option value="Y">중지신청</option>
+										<option value="N">활동신청</option>
+									</select>
+
+								</div>
+							</div>
+							<hr />
+
+							<!-- 게시판 시작 부분 -->
+							<div class="table table-responsive">
+								<table>
+									<caption>
+										번호, 민원서식명, 민원분류, 처리기간, 서식파일, 신청의 대한
+										정보 제공
+									</caption>
+									<colgroup>
+										<col style="width: 20%" />
+										<col style="width: 15%" />
+										<col style="width: 35%" />
+										<col style="width: 15%" />
+										<col style="width: 15%" />
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">신청일</th>
+											<th scope="col">신청자이름</th>
+											<th scope="col">중지기간</th>
+											<th scope="col">활동상태</th>
+											<th scope="col">처리</th>
+										</tr>
+									</thead>
+									<tbody id="yourTableId">
+
+									</tbody>
+								</table>
+							</div>
+							<!-- pagenation -->
+							<div class="pager">
+								<!-- 페이지네이션 부분 -->
+							</div>
+						</div>
+						<!-- //본문컨텐츠 영역 -->
+					</form>
+				</article>
+			</div>
+		</div><!-- //main_con  -->
+
+	</div>
+
+</th:block>
+
+
+<script th:inline="javascript">
+
+	// 목록 불러오기 ajax
+	function pauseList(selectedValue, page, amount) {
+
+
+
+		var formData = new FormData();
+		formData
+
+		$.ajax({
+			url: "../pauseAjax?page=" + page + "&amount=" + amount + "&searchAccept_act_yn=" + selectedValue,
+			type: "GET",
+
+			success: function (data) {
+				var tbody = $("#yourTableId");
+				tbody.empty(); // 테이블 내용 초기
+				for (var i = 0; i < data.length; i++) {
+					var vo = data[i];
+					var str = "";
+
+					str += '<tr id="pause_text" class="pause_text1 cm_inptxt toggle-row" onclick="toggleRows()" style="cursor: pointer">';
+					str += '<input type="hidden" name="accept_proper_num" value="' + vo.accept_proper_num + '"/>';
+					str += '<td data-cell-header="신청일">' + vo.pause_submit_date + '</td>';
+					str += '<td data-cell-header="신청자이름">' + vo.user_name + '</td>';
+					str += '<td data-cell-header="중지기간">' + vo.pause_start_date + ' ~ ' + vo.pause_end_date + '</td>';
+					str += '<td data-cell-header="현재활동상태"><a class="' + (vo.accept_act_yn == 'Y' ? 'fclttStatus1' : 'fclttStatus2') + '">';
+					str += '<em>' + (vo.accept_act_yn == 'Y' ? '활동중' : '중지중') + '</em></a></td>';
+					str += '<td data-cell-header="처리"><a href="#" class="' + (vo.accept_act_yn == 'Y' ? 'pauseResult1' : 'pauseResult2') + '">';
+					str += '<em>' + (vo.accept_act_yn == 'Y' ? '중지승인' : '활동승인') + '</em></a></td></tr>';
+					str += '<tr class="hidden-row" style="display: none; ">';
+					str += '<td data-cell-header="신청일"></td>';
+					str += '<td data-cell-header="신청자이름"></td>';
+					str += '<td data-cell-header="중지기간" style="text-align: left; padding : 0;">중지 사유 : ' + vo.accept_pause_etc + '</td>';
+					str += '<td data-cell-header="현재활동상태"></td>';
+					str += '<td data-cell-header="처리"></td></tr>';
+					// 표에 행 추가
+					tbody.append(str);
+				}
+
+				// 서버에서 받은 데이터를 반복하여 페이지 링크 생성
+				$.each(data, function (index, PauseVO) {
+					var pager = $(".pager");
+					var str2 = '<div class="pager-wrap">';
+
+					if (PauseVO.fclttPageVO.pageList.length > 1) {
+						// 처음 페이지로 이동하는 링크 생성
+						str2 += '<a href="#" data-page-action=1 class="arr first" ></a>';
+					}
+					// 이전 페이지로 이동하는 링크 생성
+					if (PauseVO.fclttPageVO.pageList.length > 1 && PauseVO.fclttPageVO.prev) {
+						str2 += '<a href="#" data-page-action="prev" class="arr prev"></a>';
+					}
+
+					// 페이지 번호를 생성
+					for (var i = 0; i < PauseVO.fclttPageVO.pageList.length; i++) {
+						var page = PauseVO.fclttPageVO.pageList[i];
+						str2 += '<a href="#"';
+						if (page == PauseVO.fclttPageVO.page) {
+							str2 += 'class="active"';
+						}
+						str2 += '>' + page + '</a>';
+					}
+
+					// 다음 페이지로 이동하는 링크 생성
+					if (PauseVO.fclttPageVO.pageList.length > 1 && PauseVO.fclttPageVO.next) {
+						str2 += '<a href="#" data-page-action="next" class="arr next" ></a>';
+					}
+
+					// 맨 마지막 페이지로 이동하는 링크 생성
+					if (PauseVO.fclttPageVO.pageList.length > 1) {
+						str2 += '<a href="#" data-page-action="last"  class="arr last" ></a>';
+					}
+
+					str2 += '</div>';
+
+					// 표에 행 추가
+					pager.empty().append(str2);
+				});
+
+
+
+
+
+
+			}
+		});
+	}
+
+	// 페이지 로드 시 목록을 불러옵니다.
+
+
+	// 페이징
+	$(".pager").on('click', 'a', function (e) {
+		e.preventDefault();
+		var pageAction = $(this).data('page-action');
+		var selectedValue = $("#selectedValue").val();
+
+		var currentPage = ($(".pager a.active").text());
+		if (pageAction === 1) {
+			// 맨 처음 페이지로 이동하는 동작 수행
+			pauseList(fclttChange, 1, 10);
+		} else if (pageAction === 'prev') {
+			// 이전 페이지로 이동하는 동작 수행
+			var currentPage = ($(".pager a.active").text());
+			if (currentPage > 1) {
+				pauseList(selectedValue, currentPage - 1, 10);
+			}
+		} else if (pageAction === 'next') {
+			// 다음 페이지로 이동하는 동작 수행
+			var currentPage = ($(".pager a.active").text());
+			var totalPages = ($(".pager a:last").prev().text()); // 맨 마지막 페이지 번호
+			if (currentPage < totalPages) {
+				pauseList(selectedValue, currentPage + 1, 10);
+			}
+		} else if (pageAction === 'last') {
+			// 맨 마지막 페이지로 이동하는 동작 수행
+			var totalPages = ($(".pager a:last").prev().text()); // 맨 마지막 페이지 번호
+			pauseList(selectedValue, totalPages, 10);
+		} else {
+			// 페이지 번호를 클릭한 경우
+			var pageNumber = $(this).text();
+			// 페이지 번호를 사용하여 데이터를 불러오는 동작 수행
+			pauseList(selectedValue, pageNumber, 10);
+		}
+	});
+
+
+	
+
+	$(document).ready(function () {
+		pauseList($("#selectedValue").val(), 1, 10);
+
+	});
+
+
+
+	// 활동준비/ 승인준비 select change 값 별로 정렬
+	$("#selectedValue").change(function () {
+		var selectedValue = $(this).val();
+
+		pauseList(selectedValue, 1, 10); // pageNumber와 pageSize를 직접 지정
+	});
+</script>
+
+<script>
+
+	function toggleRows() {
+		var hiddenRow = event.currentTarget.nextSibling;
+		if (hiddenRow.style.display === "none") {
+			hiddenRow.style.display = "table-row";
+		} else {
+			hiddenRow.style.display = "none";
+		}
+	}
+
+
+</script>
+
+
+
+
+
+
+</html>

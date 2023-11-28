@@ -1,0 +1,229 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+  <div class="wrap">
+    <!-- main_con  -->
+    <div id="main_con">
+      <div id="nav_menu">
+        <div id="lnb">
+          <h2 class="title">Mypage</h2>
+          <div class="menu">
+            <ul>
+              <li><a href="/mypage/main">나의 정보관리</a>
+              </li>
+              <li><a href="/mypage/status">나의 신청현황</a>
+              </li>
+              <li><a href="/mypage/history">나의 활동내역</a>
+              </li>
+              <li><a href="/mypage/pause">중지 및 해제신청</a>
+              </li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+      <div id="contents">
+
+          <style>
+        @media screen and (max-width: 1024px) {
+          .table-responsive > table > tbody > tr td[data-cell-header]:before {
+            width: 30%;
+            margin: 0 0 0 0;
+            vertical-align: unset;
+          }
+        }
+        .table-responsive > table > tbody > tr:hover {
+          background-color: #e6f8ff;
+        }
+        @media screen and (min-width: 1100px) {
+          #select-box-margin-left-10 {
+            margin-left: 6px;
+          }
+        }
+      </style>
+      <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+
+
+      <article id="detail-content">
+ 
+          <div class="heading-wrap container">
+            <h3 class="heading1">
+              <span>나의 신청 현황</span>
+            </h3>
+          </div>
+
+          <!-- 본문컨텐츠 영역 -->
+          <div class="container">
+
+            <!-- 게시판 시작 부분 -->
+            <div class="table table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">신청일</th>
+                    <th scope="col">재판조력자 분류</th>
+                    <th scope="col">신청상태</th>
+                    <th scope="col">비고</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:if="${vo != null}">
+                    <td data-cell-header="신청번호" style="display: none;" id="aplcnNumber">[[${vo.aplcn_dtls_proper_num}]] </td>
+                    <td data-cell-header="신청일">[[${vo.aplicn_dtls_date}]]</td>
+                    <td data-cell-header="재판조력자분류">[[${vo.trial_fcltt_clasifi_code}]]</td>
+                    <td data-cell-header="신청상태">[[${vo.aplicn_dtls_sts}]]</td>
+                    <td id="expire">
+				      <div class="button-group">
+				        <a href="#" class="case case1 modify" th:if="${vo.aplicn_dtls_sts == '신청중'}">
+							<em style="width: 50px;">수정</em>
+						</a>
+				        <a href="#" class="case case1 delete" th:if="${vo.aplicn_dtls_sts == '신청중'}">
+							<em style="width: 50px;">취소</em>
+						</a>
+
+				        <a href="#" class="case case1 modify" th:if="${vo.aplicn_dtls_sts == '서류반려'}">
+							<em style="width: 50px;">수정</em>
+						</a>
+				        <a href="#" class="case case1 delete" th:if="${vo.aplicn_dtls_sts == '서류반려'}">
+							<em style="width: 50px;">취소</em>
+						</a>
+				      
+				      	<a href="#" class="case case1 complete" th:if="${vo.aplicn_dtls_sts == '신청완료'}" style="cursor: default;">
+							  <em style="width: 75px; background-color: #8c8c8c;">신청완료</em>
+						</a>
+
+				
+				      	
+				      	<a href="#" class="case case1 complete" th:if="${vo.aplicn_dtls_sts == '심사중'}" style="cursor: default;">
+							  <em style="width: 75px; background-color: #8c8c8c;">신청완료</em>
+						</a>
+						
+			
+
+				        <a href="#" class="case case1 modify" th:if="${vo.aplicn_dtls_sts == '신청취소'}">
+							<em style="width: 60px;">재신청</em>
+						</a>
+				      
+				      </div>
+				    </td>
+                  </tr>
+                  
+                  <tr th:if="${vo == null}">
+					  <td colspan="4">신청 내역이 없습니다.</td>
+                  </tr>
+                </tbody>
+ 				
+              </table>
+              
+            </div>
+          
+          </div>
+          <!-- //본문컨텐츠 영역 -->
+        
+      </article>
+
+
+
+    </div>
+
+
+    <!-- //main_con  -->
+  </div>
+
+  
+
+
+</th:block>
+
+<!--수정 및 삭제 버튼-->
+<script>
+    $(document).ready(function () {
+        $(".modify").click(function (e) {
+            e.preventDefault(); // 기본 동작 방지
+
+            // "수정" 버튼을 클릭했을 때 실행될 코드
+            window.location.href = "/app/info";
+        });
+
+        $(".delete").click(function (e) {
+            e.preventDefault(); // 기본 동작 방지
+            const aplicnNum = $("#aplcnNumber").text();
+			
+            // "삭제" 버튼을 클릭했을 때 확인 대화 상자를 표시
+            if (confirm("신청을 취소하시겠습니까?")) {
+                // "확인"을 클릭한 경우 서버로 삭제 요청을 보냄
+                $.ajax({
+                    url: "/mypage/deleteAplicn?aplicnNum=" + aplicnNum,
+                    type: "POST", // 또는 "GET" 등 요청 방식 설정
+                    success: function (data) {
+                        // 삭제 요청이 성공하면 원하는 작업 수행
+                        console.log("신청이 최소되었습니다.");
+                        window.location.href="/mypage/status";
+                        // 추가 작업을 여기에 추가하세요.
+                    },
+                    error: function (error) {
+                        // 삭제 요청이 실패한 경우 에러 처리
+                        console.error("삭제 중 오류가 발생했습니다.", error);
+                        // 에러 처리나 다른 작업을 여기에 추가하세요.
+                    },
+                });
+            }
+        });
+    });
+</script>
+
+
+
+
+
+
+
+<!--<script>
+  $(document).ready(function() {
+    const buttonGroups = $(".button-group");
+    buttonGroups.each(function() {
+      const modifyButton = $(this).find(".modify");
+      const deleteButton = $(this).find(".delete");
+      const tr = $(this).closest("tr");
+
+      modifyButton.on("click", function() {
+        // "수정" 버튼을 클릭했을 때 실행될 코드
+        window.location.href = "/app/info";
+      });
+
+      deleteButton.on("click", function() {
+        // "삭제" 버튼을 클릭했을 때 실행될 코드
+        if (confirm("삭제하시겠습니까?")) {
+          const aplicnDtlsProperNum = ;
+			console.log(aplicnDtlsProperNum);
+ 		
+          $.ajax({
+            type: "POST",
+            url: "deleteAplicn?aplicnDtlsProperNum=" + aplicnDtlsProperNum,
+   
+            success: function(data) {
+                 // 서버 요청이 성공하면 해당 행을 삭제
+              if (data.success) {
+                tr.remove();
+              } else {
+                alert("삭제에 실패했습니다.");
+              }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.error("오류 발생:", textStatus, errorThrown);
+              alert("삭제 중 오류가 발생했습니다.");
+            }
+          });
+        }
+      });
+    });
+  });
+</script>
+-->
+</html>

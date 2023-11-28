@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.court.proj.faq.FaqMapper">
+
+	<!--  list 불러오기  -->
+    <select id="getList" resultType="FaqVO">
+	    select tb4.*,
+		tb15.admin_name
+        from TB_004 tb4
+        join TB_015 tb15 on tb15.admin_proper_num = tb4.admin_proper_num
+	 	 <where>
+	        <if test="searchContent != null and searchContent != '' and searchContent != 'null'">
+	            <choose>
+	                <when test="searchContent =='searchFaq_ask_content'">
+	                    AND faq_ask_content like concat('%', #{searchContent2}, '%')
+	                </when>
+	                <when test="searchContent =='searchFaq_ask_comment'">
+	                    AND faq_ask_comment like concat('%', #{searchContent2}, '%')
+	                </when>
+	                <when test="searchContent =='searchAll'">
+	                    AND (faq_ask_content like concat('%', #{searchContent2}, '%')
+	                    OR faq_ask_comment like concat('%', #{searchContent2}, '%'))
+	                </when>
+	            </choose>
+	        </if>
+	
+	        <if test="searchContent2 != null and searchContent2 != '' and searchContent2 != 'null'">
+	            <choose>
+	                <when test="searchContent2 != null and searchContent2 != '' and searchContent2 != 'null'">
+	                    AND (faq_ask_content like concat('%', #{searchContent2}, '%')
+	                    OR faq_ask_comment like concat('%', #{searchContent2}, '%'))
+	                </when>
+	                <otherwise>
+	                </otherwise>
+	            </choose>
+	        </if>
+	    </where>
+	    ORDER BY FAQ_ASK_DATE DESC
+	 	LIMIT #{pageStart}, #{amount}
+	 	
+    </select>
+
+<!-- total 구하기 -->
+    <select id="getTotal" resultType="int">
+    	select count(*) from TB_004
+    		 	 <where>
+	        <if test="searchContent != null and searchContent != '' and searchContent != 'null'">
+	            <choose>
+	                <when test="searchContent =='searchFaq_ask_content'">
+	                    AND faq_ask_content like concat('%', #{searchContent2}, '%')
+	                </when>
+	                <when test="searchContent =='searchFaq_ask_comment'">
+	                    AND faq_ask_comment like concat('%', #{searchContent2}, '%')
+	                </when>
+	                <when test="searchContent =='searchAll'">
+	                    AND (faq_ask_content like concat('%', #{searchContent2}, '%')
+	                    OR faq_ask_comment like concat('%', #{searchContent2}, '%'))
+	                </when>
+	            </choose>
+	        </if>
+	
+	        <if test="searchContent2 != null and searchContent2 != '' and searchContent2 != 'null'">
+	            <choose>
+	                <when test="searchContent2 != null and searchContent2 != '' and searchContent2 != 'null'">
+	                    AND (faq_ask_content like concat('%', #{searchContent2}, '%')
+	                    OR faq_ask_comment like concat('%', #{searchContent2}, '%'))
+	                </when>
+	                <otherwise>
+	                </otherwise>
+	            </choose>
+	        </if>
+	    </where>
+    </select>
+
+<!-- 해당 질문 수정하기위한 정보 불러오기-->
+	<select id="getDetail" resultType="FaqVO">
+	
+        select tb4.*,
+		tb15.admin_name
+        from TB_004 tb4
+        join TB_015 tb15 on tb15.admin_proper_num = tb4.admin_proper_num
+		where faq_proper_num = #{faq_proper_num}
+			
+	</select>
+	
+<!-- faq 수정하기  -->
+	
+	<update id="faqModify">
+	  update TB_004 set faq_ask_content = #{faq_ask_content}, 
+                        faq_ask_comment = #{faq_ask_comment}
+      where faq_proper_num = #{faq_proper_num}
+	</update>	
+	
+	
+	
+	
+<!-- 해당질문 삭제  -->
+	<delete id="faqDel">
+		delete from TB_004 where faq_proper_num = #{faq_proper_num}
+	</delete>
+
+
+<!-- FAQ 등록하기 -->
+
+	<insert id="faqRag" >
+        INSERT INTO TB_004 (admin_proper_num, 
+							faq_ask_content, 
+                            faq_ask_comment
+                            )
+		VALUES
+				(#{admin_proper_num}, 
+                #{faq_ask_content}, 
+                #{faq_ask_comment})
+	</insert>
+	
+
+
+
+
+
+</mapper>

@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head></head>
+<link rel="stylesheet" th:href="@{./../css/faq/faq.css}" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script defer th:src="@{./../js/faq/faq.js}"></script>
+
+</head>
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap2})}">
+
+	<div class="wrap2">
+		<!-- main_con  -->
+		<div id="main_con">
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">공지사항</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">모집공고</a>
+								<ul class="sub" style="display: none;">
+									<li sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_JURIS','ROLE_COURT')"><a
+											href="../announce/announceRegist">모집공고 등록</a></li>
+									<li><a href="../announce/announceList">모집공고 목록</a></li>
+								</ul>
+							</li>
+							<li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">공지사항</a>
+								<ul class="sub" style="display: none;">
+									<li sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_JURIS','ROLE_COURT')"><a href="../notice/noticeRegist">공지사항
+											등록</a></li>
+									<li><a href="../notice/noticeList">공지사항 목록</a></li>
+								</ul>
+							</li>
+							<li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">FAQ</a>
+								<ul class="sub" style="display: none;">
+									<li sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_JURIS','ROLE_COURT')"><a href="/faq/regist">FAQ 등록</a>
+										<div id="userRole" style="font-size: 0px; color: #f6f6f6;">
+											[[${#authentication.principal.authorities}]]</div>
+									</li>
+									<li><a href="/faq/faqList">FAQ 목록</a></li>
+								</ul>
+							</li>
+
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div id="contents">
+
+				<style>
+					@media screen and (max-width: 1024px) {
+						.table-responsive>table>tbody>tr td[data-cell-header]:before {
+							width: 30%;
+							margin: 0 0 0 0;
+							vertical-align: unset;
+						}
+					}
+
+					.table-responsive>table>tbody>tr:hover {
+						background-color: #e6f8ff;
+					}
+
+					@media screen and (min-width: 1100px) {
+						#select-box-margin-left-10 {
+							margin-left: 6px;
+						}
+					}
+				</style>
+
+				<div id="wrap" style="padding:0 50px">
+					<div class="contents intro" id="container_id">
+						<h3 style="color: #2065c6;">자주 하는 질문(FAQ)</h3>
+						<div class="group">
+							<!-- 검색영역 -->
+							<form id="srchForm" name="srchForm" action="" method="get">
+								<fieldset>
+									<div class="controls mt10 reset_form">
+										<div>
+											<div class="box">
+												<select id="srchTycd" title="검색어 조건 선택" name="searchContent"
+													style="height: 40px; width: 140px;">
+													<option value="searchAll">제목+내용</option>
+													<option value="searchFaq_ask_content">제목</option>
+													<option value="searchFaq_ask_comment">내용</option>
+												</select>
+												<input type="search" id="srchKwrd" name="searchContent2" title="검색어 입력"
+													placeholder="검색어를 입력하세요" style="height: 40px; width: 370px;" />
+											</div>
+										</div>
+										<div class="btn">
+											<button type="button" class="btn_small bg_blue"
+												style="text-decoration: none;" onclick="faqSearchBtn()">검색</button>
+											<button type="reset" class="btn_small white_line" onclick="faqSearchBtn2()"
+												style="text-decoration: none;">초기화</button>
+										</div>
+									</div>
+									<div class="flex">
+										<h4 class="twins_dot">검색 결과 <span>(총 <strong
+													class="color_orange"></strong>건)</span></h4>
+										<div class="box only_pc">
+											<select id="pageUnit" name="pageUnit" title="목록에 노출되는 개수 선택"
+												style="height: 40px;">
+												<option value="10">10개씩 보기</option>
+												<option value="15">15개씩 보기</option>
+												<option value="20">20개씩 보기</option>
+											</select>
+										</div>
+									</div>
+								</fieldset>
+
+							</form>
+							<!-- 검색영역 -->
+
+							<ul id="faqAccordion" class="accordion">
+
+							</ul>
+							<!-- 검색결과 -->
+
+							<!-- pagination -->
+							<div class="pager">
+
+							</div><!-- //group -->
+							</di>
+
+						</div>
+
+
+					</div>
+				</div>
+				<!-- //main_con  -->
+			</div>
+
+</th:block>
+
+<script th:inline="javascript">
+
+
+	$(document).ready(function () {
+		// 문서가 준비되면 이 코드 블록이 실행됩니다.
+		// Ajax로 생성된 HTML이 추가된 후에 함수를 호출합니다.
+		faqList(1, 10, $("#srchTycd").val(), $("#srchKwrd").val());
+		userHasAdminRole();
+	});
+
+</script>
+<script th:inline="javascript">
+
+	var regMSG = '[[${regMSG}]]';
+	if (regMSG != 'null') {
+		alert(regMSG);
+	}
+	var modifyMSG = '[[${modifyMSG}]]';
+	if (modifyMSG != 'null') {
+		alert(modifyMSG);
+	}
+
+
+</script>
+
+</html>

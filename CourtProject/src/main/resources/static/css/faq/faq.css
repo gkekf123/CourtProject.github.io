@@ -1,0 +1,628 @@
+/*
+- 주황색 #bb4f1a → #e0794a,
+- 파랑색 #4b63c3 → #506de0 로 일괄교체 해주세요.
+*/
+
+
+/* 공통 구조
+**********************************************/
+
+/* 화면 감춤 */
+#wrap .only_pc {
+	display: block;
+}
+
+/* Global */
+body.none_scroll {
+	overflow: hidden;
+}
+
+
+/* 공통 STYLE
+**********************************************/
+
+/* 마진 */
+
+
+
+#wrap .mt10 {
+	margin-top: 0.625rem;
+	margin: 10px 3px;
+}
+
+/* 색상 */
+#wrap .color_orange {
+	color: #4b63c3;
+}
+
+#wrap .color_darkblue {
+	color: #004f91;
+}
+
+/* 정렬 */
+#wrap .vertical_middle {
+	vertical-align: middle;
+}
+
+.flex {
+	display: flex;
+	align-items: flex-end;
+}
+
+.flex .box {
+	/* margin-left: auto; */
+}
+
+.flex .box .btn,
+.file_search .btn {
+	height: 40px;
+	margin-left: 5px;
+	padding: 0 1.5rem;
+	border: 1px solid #bdbdbd;
+	border-radius: 0.625rem;
+}
+
+.flex .box .btn:hover,
+.file_search .btn:hover {
+	text-decoration: none;
+}
+
+.flex .box .btn.bg_blue {
+	color: #fff;
+	border-color: #4b63c3;
+	background-color: #4b63c3;
+}
+
+.flex .box .blue_btn {
+	height: 32px;
+	padding: 0 24px;
+	font-size: 14px;
+	color: #fff;
+	background-color: #4b63c3;
+	border-radius: 0.625rem;
+}
+
+.flex .box .blue_btn i.rg {
+	width: 24px;
+	height: 24px;
+	background-position: -780px -20px;
+}
+
+.flex .box .blue_btn:hover {
+	text-decoration: underline;
+}
+
+.flex .box .orange_btn {
+	height: 32px;
+	padding: 0 24px;
+	font-size: 14px;
+	color: #fff;
+	background-color: #bb4f1a;
+	border-radius: 0.625rem;
+}
+
+.flex .box .orange_btn:hover {
+	text-decoration: none;
+}
+
+.flex .box i.m_glass {
+	width: 18px;
+	height: 18px;
+	margin-top: -2px;
+	background-position: -840px -20px;
+}
+
+.flex .box .btn.map_btn {
+	padding: 0 1.063rem;
+}
+
+.flex .radio_group input {
+	margin: 0 3px 0 25px;
+}
+
+.flex .sub {
+	font-size: 14px;
+}
+
+.flex .lable_set {
+	padding-bottom: 5px;
+}
+
+.flex .lable_set label {
+	margin: 0 25px 0 5px;
+}
+
+.flex.flext_center {
+	align-items: center;
+}
+
+/* 버튼 */
+#wrap .btn_default {
+	display: inline-block;
+	min-width: 100px;
+	height: 50px;
+	padding: 0 14px;
+	text-align: center;
+	line-height: 48px;
+	vertical-align: middle;
+	border-radius: 0.625rem;
+}
+
+#wrap .btn_defaulsubt:hover {
+	text-decoration: none;
+}
+
+#wrap .btn_small {
+	display: inline-block;
+	height: 38px;
+	padding: -1px 15px;
+	font-size: 15px;
+	text-align: center;
+	/* line-height: 38px; */
+	vertical-align: middle;
+	border-radius: 0.625rem;
+
+}
+
+.bg_blue:hover {
+	text-decoration: none;
+	background-color: white;
+	color: #004f91;
+}
+
+
+#wrap .btn_default.bg_blue,
+#wrap .btn_small.bg_blue {
+	color: #fff;
+	background-color: #4b63c3;
+}
+
+#wrap .btn_default.white_line,
+#wrap .btn_small.white_line {
+	border: 1px solid #bdbdbd;
+	background-color: #fff;
+	white-space: nowrap;
+}
+
+#wrap .btn_default.blue_line,
+#wrap .btn_small.blue_line {
+	color: #4b63c3;
+	border: 1px solid #4b63c3;
+}
+
+#wrap .btn_small.pd18 {
+	padding: 0 1.125rem;
+}
+
+#wrap .btn_small i.expand {
+	width: 18px;
+	height: 18px;
+	margin-top: -2px;
+	background-position: -840px -20px;
+}
+
+#wrap .btn_default.bg_red,
+#wrap .btn_small.bg_red {
+	color: #fff;
+	background-color: red;
+}
+
+/* 필수 */
+
+
+/* 헤딩 */
+.contents>h3 {
+	display: flex;
+	min-height: 100px;
+	margin-bottom: 10px;
+	padding-top: 26px;
+	font-size: 27px;
+	font-weight: 700;
+	color: #2065c6;
+	justify-content: center;
+	border-bottom: 2px solid #2065c6;
+}
+
+.contents>h3.no_line {
+	margin-bottom: 0;
+	border-bottom: none;
+}
+
+h4.twins_dot {
+	margin-top: 24px;
+	font-size: 21px;
+	font-weight: 500;
+	color: #111;
+	line-height: 1.5rem;
+}
+
+h4.twins_dot span {
+	font-weight: 300;
+}
+
+
+
+/* 질문 문항 */
+.question {
+	margin-top: 30px;
+	border-top: 1px solid #111;
+	font-size: 20px;
+}
+
+.question>li {
+	position: relative;
+	border-bottom: 1px solid #959595;
+}
+
+.question>li dl dt {
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	color: #363636;
+	line-height: 20px;
+}
+
+.question>li dl dt strong {
+	display: block;
+}
+
+
+/* 게시판 */
+.controls {
+	position: relative;
+	padding: 25px 0px;
+	color: #363636;
+	border: 1px solid #ccc;
+	background-color: #eff5ff;
+	border-radius: 5px;
+}
+
+.controls>div {
+	display: flex;
+	position: relative;
+	min-height: 40px;
+	margin-top: 10px;
+	padding-left: 60px;
+
+}
+
+.controls>div.only_pc {
+	display: flex !important;
+}
+
+.controls>div.bdb {
+	margin-bottom: 15px;
+	padding-bottom: 1.563rem;
+	border-bottom: 1px solid #d1d1d1;
+}
+
+.controls>div:first-child,
+.controls>i+div {
+	margin-top: 0;
+}
+
+.controls .title {
+	position: absolute;
+	left: 0;
+	top: 13px;
+	padding-left: 14px;
+	color: #363636;
+}
+
+.controls .title::before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 5px;
+	width: 4px;
+	height: 4px;
+	background-color: #8a8987;
+}
+
+.controls .box {
+	width: 100%;
+	padding-right: 86px;
+}
+
+.controls .box>label {
+	margin: 0 18px 0 7px;
+}
+
+.controls .box select,
+.controls .box input[type=search] {
+	float: left;
+}
+
+.controls .box input[type=search] {
+	width: calc(100% - 147px);
+}
+
+.controls .box select {
+	width: 140px;
+	margin-right: 6px;
+	padding-left: 10px;
+	float: left;
+	font-size: 14px;
+}
+
+.controls .box select.w100p {
+	width: 100%;
+}
+
+.controls .box select.w100p_minus {
+	width: calc(100% - 150px);
+	margin-right: 0;
+}
+
+.controls .btn {
+	position: absolute;
+	right: 30px;
+	bottom: 25px;
+	width: 200px;
+	height: 40px;
+	color: #fff;
+	background-color: #4b63c3;
+	border-radius: 7px;
+}
+
+.controls .btn:hover {}
+
+.controls label.blet {
+	position: relative;
+	padding-left: 14px;
+}
+
+
+
+.controls.reset_form .btn {
+	position: absolute;
+	right: 30px;
+	bottom: 25px;
+	/* width: inherit; */
+	/* height: inherit; */
+	padding: 0;
+	color: inherit;
+	background-color: inherit;
+	border-radius: 0;
+	margin: 0;
+}
+
+.controls.reset_form .box {
+	display: flex;
+	align-items: center;
+	height: 40px;
+	padding-right: 153px;
+	overflow: hidden;
+}
+
+.controls.reset_form .btn button {
+	width: 80px;
+	margin-left: 6px;
+}
+
+
+
+
+/* 페이지 넘버 및 게시판 관련 */
+.pagination {
+	margin-top: 40px;
+	text-align: center;
+}
+
+.pagination a,
+.pagination strong {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin: 0 2px;
+	padding-top: 9px;
+	color: #363636;
+	vertical-align: middle;
+	border-radius: 50%;
+}
+
+.pagination .active {
+	color: #fff;
+	background-color: rgb(0, 128, 255);
+}
+
+.pagination .first {
+	padding-top: 7px;
+	border: 1px solid #c2c2c2;
+}
+
+.pagination .prev {
+	padding-top: 7px;
+	margin-right: 20px;
+	border: 1px solid #c2c2c2;
+}
+
+.pagination .next {
+	padding-top: 7px;
+	margin-left: 20px;
+	border: 1px solid #c2c2c2;
+}
+
+.pagination .last {
+	padding-top: 7px;
+	border: 1px solid #c2c2c2;
+}
+
+.pagination .first i {
+	width: 12px;
+	height: 9px;
+	background-position: -140px 0;
+}
+
+.pagination .prev i {
+	width: 6px;
+	height: 9px;
+	background-position: -165px 0;
+}
+
+.pagination .next i {
+	width: 6px;
+	height: 9px;
+	background-position: -182px 0;
+}
+
+.pagination .last i {
+	width: 12px;
+	height: 9px;
+	background-position: -201px 0;
+}
+
+.pagination .first:hover,
+.pagination .prev:hover,
+.pagination .next:hover,
+.pagination .last:hover {
+	border: 1px solid rgb(255, 255, 255);
+}
+
+.pagination .first:hover i,
+.pagination .prev:hover i,
+.pagination .next:hover i,
+.pagination .last:hover i {
+	background-position-y: -11px;
+}
+
+
+
+/* Table
+**********************************************/
+
+/* FAQ */
+.intro .accordion {
+	margin-top: 11px;
+	border-top: 1px solid #111;
+	border-bottom: 1px solid #111;
+}
+
+.intro .accordion li h5 {
+	position: relative;
+	padding: 20px 60px;
+	color: #363636;
+	line-height: -0.625rem;
+	border-bottom: 1px solid #d1d1d1;
+	cursor: pointer;
+}
+
+.intro .accordion li h5 abbr {
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	margin-top: -14px;
+	font-family: "Montserrat";
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: #363636;
+}
+
+.intro .accordion li h5 button {
+	text-align: left;
+
+
+}
+
+
+.intro .accordion li h5 button:hover {
+	text-decoration: none;
+}
+
+.intro .accordion li .accopanel {
+	display: none;
+	position: relative;
+	margin-top: -1px;
+	/*padding: 1.563rem 0.625rem 1.563rem 3.5rem;*/
+	padding: 50px 100px 50px 80px;
+	color: #363636;
+	line-height: 1.563rem;
+	background-color: #eff5ff;
+	border-top: 1px solid #004f91;
+	border-bottom: 1px solid #d1d1d1;
+}
+
+.intro .accordion li .accopanel abbr {
+	position: absolute;
+	left: 1.25rem;
+	top: 1.563rem;
+	font-family: "Montserrat";
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: #4b63c3;
+}
+
+.intro .accordion li.empty {
+	padding: 40px 0;
+	text-align: center;
+	border-bottom: 1px solid #d1d1d1;
+}
+
+
+
+.faq_modify_btn1 {
+	margin-left: 30px;
+	padding-left: 15px;
+	display: inline;
+	text-align: center;
+	border: 1px solid #2065c6;
+	height: 30px;
+	width: 60px;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+.faq_modify_btn2 {
+	padding-left: 15px;
+	display: inline;
+	text-align: center;
+	border: 1px solid #2065c6;
+	height: 30px;
+	width: 60px;
+	border-radius: 5px;
+	font-size: 13px;
+	font-weight: 500;
+
+}
+
+.faq_modify_btn1:hover {
+	color: white;
+	background-color: #2065c6;
+}
+
+.faq_modify_btn2:hover {
+	color: white;
+	background-color: rgb(255, 0, 0);
+}
+
+
+
+/*   FAQ 등록   */
+
+.faq_btn {
+	margin-top: 20px;
+	text-align: center;
+
+}
+
+.faq_btn>button {
+
+	height: 50px;
+	width: 150px;
+	border: 1px solid #2065c6;
+	border-radius: 5px;
+	margin: 5px;
+	padding: 10px;
+
+
+}
+
+.faq_btn>button:hover {
+	color: white;
+	background-color: #2065c6;
+
+}
+
+#pageUnit{margin-left: 567px;}

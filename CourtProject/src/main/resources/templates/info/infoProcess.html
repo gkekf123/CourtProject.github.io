@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" th:href="@{../css/fcltt/fcltt.css}" />
+	<link rel="stylesheet" th:href="@{../css/info/infoProcess.css}" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script defer th:src="@{../js/fcltt/fcltt.js}"></script>
+	<script defer th:src="@{../js/info/infoProcess.js}"></script>
+
+</head>
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f0f0f0;
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #fff;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+
+		h1 {
+			font-size: 24px;
+			text-align: center;
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 16px;
+			line-height: 1.5;
+		}
+
+		ul {
+			list-style-type: disc;
+			margin-left: 20px;
+		}
+
+		.alert {
+			background-color: #ffc107;
+			color: #333;
+			padding: 10px;
+			margin: 20px 0;
+			border-radius: 5px;
+		}
+	</style>
+	<div class="wrap">
+
+		<div id="main_con">
+			<!--메뉴바-->
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">조력자제도 안내</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub">
+							<li style="display: block;"><a href="../info/info">조력자제도란?</a></li>
+							<li style="display: block;"><a href="../info/infoProcess">조력자신청절차</a></li>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 메뉴바 여기까지-->
+			<!--   본문 contents 내용 시작 -->
+			<article>
+				<style>
+					@media screen and (max-width: 1024px) {
+						.table-responsive>table>tbody>tr td[data-cell-header]:before {
+							width: 30%;
+							margin: 0 0 0 0;
+							vertical-align: unset;
+						}
+					}
+
+					.table-responsive>table>tbody>tr:hover {
+						background-color: #e6f8ff;
+					}
+
+					@media screen and (min-width: 1100px) {
+						#select-box-margin-left-10 {
+							margin-left: 6px;
+						}
+					}
+				</style>
+				<style>
+					.info_container {
+						margin: 0 auto;
+						padding: 0 30px 30px 0;
+						width: 65%;
+						height: auto;
+						display: block;
+						margin: 0 500px 60px 500px;
+						word-wrap: break-word;
+					}
+
+					.cont1,
+					.cont2 {
+						width: 100%;
+						margin: 20px;
+						padding: 10px;
+					}
+
+					li {
+						line-height: 2;
+					}
+
+					li>img,
+					h2>img,
+					h3>img {
+						margin-right: 10px;
+					}
+
+					h2,
+					h3 {
+						margin-bottom: 10px;
+					}
+
+					.last {
+						padding-left: 20px;
+					}
+				</style>
+
+				<div class="info_container">
+					<div class="cont1">
+						<h1><img src="../img/main/blue.gif"> 조력자 신청 절차</h1>
+						</br>
+						<h2 style="font-size: 20px;">조력자 신청 절차를 간략하게 볼 수 있습니다. </h2>
+						<ul>
+							<li><img src="../img/main/blue3.png">기본 정보 단계에서는 조력자, 희망법원을 선택하실 수 있고 신청자의 기본정보를 입력합니다.</li>
+							<li><img src="../img/main/blue3.png">경력 상세 단계에서는 경력사항에 대하여 입력합니다.</li>
+							<li><img src="../img/main/blue3.png">학력 상세 단계에서는 최종학력을 선택하고, 소유하고 계신 자격증에 대하여 입력합니다.</li>
+							<li><img src="../img/main/blue3.png">서류 제출 단계에서는 공통서류와 개인서류에 대하여 입력합니다.</li>
+							<li><img src="../img/main/blue3.png">공통서류 제출은 사업자등록증, 업무관련등록신고현황, 납세증명확인서가 필요합니다.</li>
+							<li><img src="../img/main/blue3.png">개인서류 제출은 이력서, 경력 증빙서류, 학력 증빙서류, 자격증 증빙서류가 필요합니다.</li>
+						</ul>
+					</div>
+
+					<div class="tabs">
+						<div class="tab-header">
+							<div class="active">
+								<i class="fa fa-code"></i> 기본정보
+							</div>
+							<div>
+								<i class="fa fa-pencil-square"></i> 경력상세
+							</div>
+							<div>
+								<i class="fa fa-bar-chart"></i> 학력상세
+							</div>
+							<div>
+								<i class="fa fa-envelope"></i> 서류제출
+							</div>
+						</div>
+						<div class="tab-indicator"></div>
+						<div class="tab-content">
+
+							<div class="active">
+								<h2>1단계 - 기본정보</h2>
+								<p>신정자의 기본정보와 신청하고자 하는 조력자를 구분하여 작성합니다.</p>
+								<p>추가정보에서는 경력 여부에 따라 입력하시면 됩니다.</p>
+								</br>
+								<img src="../img/infoProcess/infoProcess1.png">
+							</div>
+
+							<div>
+								<h2>2단계 - 경력상세</h2>
+								<p>경력 사항에 대하여 작성합니다.</p>
+								<p>(경력을 추가하시려면 오른쪽 상단의 경력 추가 버튼을 눌러주세요.)</p>
+								<br>
+								<img src="../img/infoProcess/infoProcess2.png">
+							</div>
+
+							<div>
+								<h2>3단계 - 학력상세</h2>
+								<p>최종학력을 선택하고, 소지 자격증에 대하여 작성합니다.</p>
+								<p>(자격증을 추가하시려면 오른쪽 상단의 자격증 추가 버튼을 눌러주세요.)</p>
+								<br>
+								<img src="../img/infoProcess/infoProcess3.png">
+							</div>
+
+							<div>
+								<h2>4단계 - 서류제출</h2>
+								<p>공통서류와, 개인서류에 대하여 작성합니다.</p>
+								<p>(해당 서류에 대해서 등록하기 위해서는 파일찾기 버튼을 눌러주세요.)</p>
+								<br>
+								<img src="../img/infoProcess/infoProcess4.png">
+							</div>
+
+						</div>
+					</div>
+
+
+			</article>
+		</div>
+	</div>
+
+</html>

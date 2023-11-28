@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" th:href="@{./../css/fcltt/fcltt.css}" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script defer th:src="@{./../js/fcltt/fcltt.js}"></script>
+</head>
+
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+	<div class="wrap">
+
+		<div id="main_con">
+			<!--메뉴바-->
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">조력자확인</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub">
+							<li style="display: bolck;"><a href="/fcltt/fclttList">조력자 등재명단</a></li>
+							<li style="display: bolck;"><a href="/fcltt/pause">조력자 활동신청관리</a></li>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 메뉴바 여기까지-->
+			<!--   본문 contents 내용 시작 -->
+
+			<div id="contents">
+				<style>
+					@media screen and (max-width: 1024px) {
+						.table-responsive>table>tbody>tr td[data-cell-header]:before {
+							width: 30%;
+							margin: 0 0 0 0;
+							vertical-align: unset;
+						}
+					}
+					.table-responsive>table>tbody>tr:hover {
+						background-color: #e6f8ff;
+					}
+
+					@media screen and (min-width: 1100px) {
+						#select-box-margin-left-10 {
+							margin-left: 6px;
+						}
+					}
+				</style>
+
+				<article id="detail-content">
+					<form id="listForm" name="fcltt_listForm" action="fclttList" method="get">
+						<div class="heading-wrap container">
+							<h3 class="heading1">
+								<span>재판조력자 등재 명단</span>
+							</h3>
+						</div>
+						<!-- 본문컨텐츠 영역 -->
+						<div class="container">
+							<hr />
+							<div class="fclttSearch_wrap">
+								<div class="fclttSearch_content">
+									<select name="searchContent2" id="fcltt_searchC" class="fclttSearch fclttSearch1">
+										<option value="searchAll">전체
+										</option>
+										<option value="searchCourt">법원명
+										</option>
+										<option value="searchUser_name">이름
+										</option>
+										<option value="searchNameCode">조력자분류
+										</option>
+										
+									</select>
+									<input type="text"  id="searchCont"class="fclttSearch fclttSearch2" name="searchContent" />
+									<a href="#" id="fclttSearch_btnID" class="fclttSearch_Btn">조회</a>
+									<select name="searchAccept_act_yn" id="fclttChange" 
+										class="fclttSearch fclttSearch3">
+										<option value="">활동여부</option>
+										<option value="Y">활동중</option>
+										<option value="N">중지중</option>
+									</select>
+								</div>
+							</div>
+							<hr />
+					</form>
+					<!-- 게시판 시작 부분 -->
+					<div class="table table-responsive">
+						<table>
+							<caption>
+								번호, 민원서식명, 민원분류, 처리기간, 서식파일, 신청의 대한
+								정보 제공
+							</caption>
+							<colgroup>
+								<col style="width: 10%" />
+								<col style="width: 20%" />
+								<col style="width: 15%" />
+								<col style="width: 10%" />
+								<col style="width: 15%" />
+								<col style="width: 15%" />
+								<col style="width: 15%" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">번호</th>
+									<th scope="col">재판조력자분류</th>
+									<th scope="col">법원명</th>
+									<th scope="col">이름</th>
+									<th scope="col">선발날짜</th>
+									<th scope="col">상세보기</th>
+									<th scope="col">활동여부</th>
+								</tr>
+							</thead>
+							<tbody id="fclttListId">
+
+							</tbody>
+						</table>
+					</div>
+
+					<!-- pagenation -->
+					<div class="pager">
+						<!-- 페이지네이션 부분 -->
+					</div>
+				</article>
+			</div>
+			<!--모달창 작업-->
+			<div id="popup_layer2">
+				<div class="popup_box2">
+					<!--모달 컨텐츠 영역-->
+				</div>
+			</div>
+		</div>
+		<!-- //본문컨텐츠 영역 -->
+	</div>
+	<!-- //main_con  -->
+
+
+</th:block>
+
+<script th:inline="javascript">
+	
+$("#fclttChange").change(function() {
+	var selectedValue = $(this).val();
+	var searchCont = $("#searchCont").val();
+	var searchContent2 = $("#fcltt_searchC").val();
+
+	loadList(selectedValue, $("#fcltt_searchC").val(),  $("#searchCont").val(), 1, 10); // pageNumber와 pageSize를 직접 지정
+});
+
+// 검색기능 함수
+$(".fclttSearch_content").on('click', 'a', function(e) {
+	e.preventDefault();
+
+	var selectedValue = $("#fclttChange").val();
+	var searchCont = $("#searchCont").val();
+	var searchContent2 = $("#fcltt_searchC").val();
+
+
+	loadList(selectedValue, searchContent2, searchCont, 1, 10);
+});
+
+// enter키로 조회 버튼 
+$("#searchCont").on("keydown", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // 폼의 기본 동작을 막음
+        var selectedValue = $("#fclttChange").val();
+        var searchCont = $("#searchCont").val();
+        var searchContent2 = $("#fcltt_searchC").val();
+        loadList(selectedValue, searchContent2, searchCont, 1, 10);
+    }
+});
+
+
+
+
+
+
+// 활동여부 onchange fclttChange
+$(document).ready(function() {
+	// 페이지 로드 시 목록을 불러오기
+	loadList($("#fclttChange").val(), $("#fcltt_searchC").val(), $("#fclttSearch_btnID").val(), 1, 10);
+	// 활동여부 onchange 이벤트 핸들러
+
+});
+$(".pager").on('click', 'a', function(e) {
+	e.preventDefault();
+	var pageAction = $(this).data('page-action');
+	var fclttChange = $("#fclttChange").val();
+	var searchCont = $("#searchCont").val();
+	var searchContent2 = $("#fcltt_searchC").val();
+	/*	console.log("fclttChange: " + fclttChange + ", searchCont: " + searchCont + ", fcltt_searchC: " + fcltt_searchC);
+		console.log("====================================");
+		console.log("pageAction : " + pageAction);
+		console.log("====================================");*/
+
+	var currentPage = ($(".pager a.active").text());
+	if (pageAction === 1) {
+		// 맨 처음 페이지로 이동하는 동작 수행
+		loadList(fclttChange, searchContent2, searchCont, 1, 10);
+	} else if (pageAction === 'prev') {
+		// 이전 페이지로 이동하는 동작 수행
+		var currentPage = ($(".pager a.active").text());
+		if (currentPage > 1) {
+			loadList(fclttChange, searchContent2, searchCont, currentPage - 1, 10);
+		}
+	} else if (pageAction === 'next') {
+		// 다음 페이지로 이동하는 동작 수행
+		var currentPage = ($(".pager a.active").text());
+		var totalPages = ($(".pager a:last").prev().text()); // 맨 마지막 페이지 번호
+		if (currentPage < totalPages) {
+			loadList(fclttChange, searchContent2, searchCont, currentPage + 1, 10);
+		}
+	} else if (pageAction === 'last') {
+		// 맨 마지막 페이지로 이동하는 동작 수행
+		var totalPages = ($(".pager a:last").prev().text()); // 맨 마지막 페이지 번호
+		loadList(fclttChange, searchContent2, searchCont, totalPages, 10);
+	} else {
+		// 페이지 번호를 클릭한 경우
+		var pageNumber = $(this).text();
+		// 페이지 번호를 사용하여 데이터를 불러오는 동작 수행
+		loadList(fclttChange, searchContent2, searchCont, pageNumber, 10);
+	}
+});
+
+</script>
+
+
+</html>

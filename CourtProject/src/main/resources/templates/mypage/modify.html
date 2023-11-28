@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{./../../css/mypage/mypage.css}"/>
+<link rel="stylesheet" th:href="@{./../../css/app/info.css}"/>
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+  <div class="wrap">
+    <!-- main_con  -->
+    <div id="main_con">
+      <div id="nav_menu">
+        <div id="lnb">
+          <h2 class="title">Mypage</h2>
+          <div class="menu">
+            <ul>
+              <li><a href="/mypage/main">나의 정보관리</a>
+              </li>
+              <li><a href="/mypage/status">나의 신청현황</a>
+              </li>
+              <li><a href="/mypage/history">나의 활동내역</a>
+              </li>
+              <li><a href="/mypage/pause">중지 및 해제신청</a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div id="contents">
+
+          <style>
+        @media screen and (max-width: 1024px) {
+          .table-responsive > table > tbody > tr td[data-cell-header]:before {
+            width: 30%;
+            margin: 0 0 0 0;
+            vertical-align: unset;
+          }
+        }
+        .table-responsive > table > tbody > tr:hover {
+          background-color: #e6f8ff;
+        }
+        @media screen and (min-width: 1100px) {
+          #select-box-margin-left-10 {
+            margin-left: 6px;
+          }
+        }
+      </style>
+      <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+
+
+      <article id="detail-content">
+  
+         
+          <div class="heading-wrap container">
+            <h3 class="heading1">
+              <span>회원정보 변경</span>
+            </h3>
+          </div>
+
+          <!-- 본문컨텐츠 영역 -->
+          <div class="container">
+          
+          	  <div class="table table-responsive">
+                    <table>
+						<form action="modifyForm" method="post" name="modify" id="info">
+							 <input type="hidden" name="user_proper_num" th:value="${userVO.user_proper_num}"/>
+                        <tbody>
+                        <tr style="padding-top: 20px">
+                            <th scope="row" class="txt-left">
+                                <span class="essential-txt" title="필수항목" style="margin-left: 80px">아이디</span>
+                            </th>
+                            <td data-cell-header="아이디" class="txt-left">
+                                <div class="input-wrap" style="width: 200px">
+                                 <input name="user_id" readonly
+                                        th:value="${userVO.user_id}" class="cm_inptxt" />
+                                </div>
+                            </td>
+                        </tr>
+                         <tr>
+				            <th scope="row" class="txt-left">
+				                <span class="essential-txt" title="필수항목" style="margin-left: 80px">비밀번호</span>
+				            </th>
+				            <td data-cell-header="비밀번호" class="txt-left">
+				                <div class="input-wrap-three write-wrap-m"
+				                     style="width: 162px; display: inline-block">
+				                    <div class="input-wrap" style="width: 200px">
+				                        <input name="user_pw" id="user_pw" class="cm_inptxt" type="password"
+				                        		th:value="${userVO.user_pw}"/>
+				                    </div>
+				                </div>
+				            </td>
+				        </tr>
+				        <tr>
+				            <th scope="row" class="txt-left">
+				                <span class="essential-txt" title="필수항목" style="margin-left: 80px">비밀번호 확인</span>
+				            </th>
+				            <td data-cell-header="비밀번호 확인" class="txt-left">
+				                <div class="input-wrap-three write-wrap-m"
+				                     style="width: 162px; display: inline-block">
+				                    <div class="input-wrap" style="width: 200px">
+				                        <input name="confirm_password" id="confirm_password" class="cm_inptxt" type="password"
+				                        			 th:value="${userVO.user_pw}"/>
+				                    </div>
+				                    <div id="password-error" class="error-message" style="color: red; font-size: 12px; margin-top: 5px;"></div>
+				                </div>
+				            </td>
+				        </tr>
+                        <tr>
+                            <th scope="row" class="txt-left">
+                                <span class="essential-txt" title="필수항목" style="margin-left: 80px">성명</span>
+                            </th>
+                            <td data-cell-header="성명" class="txt-left">
+								<div class="input-wrap" style="width: 200px">
+	                                <input name="user_name" readonly
+	                                       th:value="${userVO.user_name}" class="cm_inptxt"/>
+								</div>                   
+                            </td>
+                        </tr>
+						<tr>
+							<th scope="row" class="txt-left">
+								<span class="essential-txt" title="" style="margin-left: 80px">주민등록번호</span>
+							</th>
+							<td class="txt-left">
+								<span th:text="${userVO.user_rrn_f}"></span>
+								<span>-</span>
+								<span>*******</span>
+							</td>
+						</tr>
+                        <tr>
+                            <th scope="row" class="txt-left">
+                                <span class="essential-txt" title="필수항목" style="margin-left: 80px">직업</span>
+                            </th>
+                            <td data-cell-header="직업" class="txt-left">
+                                <div class="input-wrap" style="width: 200px; display: inline-block">
+                                    <input name="user_job" type="text" maxlength="8"
+                                           th:value="${userVO.user_job}" class="cm_inptxt"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="txt-left">
+                                <span style="margin-left: 80px">휴대폰번호</span>
+                            </th>
+                            <td data-cell-header="휴대폰번호" class="txt-left">
+                                <div class="input-wrap-three write-wrap-m"
+                                     style="display: inline-block">
+                                    <div class="input-wrap" style="width: 200px; display: inline-block">
+                                        <input name="user_phone" th:value="${userVO.user_phone}"
+                                               class="cm_inptxt" title="휴대폰번호" type="text"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="txt-left">
+                                <span class="essential-txt" title="" style="margin-left: 80px">이메일</span>
+                            </th>
+                            <td class="txt-left">
+                                <div class="input-wrap" style="width: 200px; display: inline-block">
+                                    <input name="user_email_f" id="cvl_mail" th:value="${userVO.user_email_f}" class="cm_inptxt" type="text">
+                                </div>
+                                <span style="margin: 7px">@</span>
+                                <div class="input-wrap" style="width: 200px; display: inline-block">
+                                    <input name="user_email_b" id="cvl_mail2" class="cm_inptxt" type="text">
+                                </div>
+                                <div class="select-box" style="padding: 9px;">
+                                    <select name="" id="mailAddr" class="info-select" >
+                                        <option value="">직접입력</option>
+                                        <option value="naver">naver.com</option>
+                                        <option value="hanmail">hanmail.net</option>
+                                        <option value="gmail">gmail.com</option>
+                                        <option value="daum">daum.net</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="border-none txt-left">
+                                <span class="essential-txt" title="필수항목" style="margin-left: 80px">주소</span>
+                            </th>
+                            <td data-cell-header="주소" class="txt-left essential-responsive">
+                                <input type="hidden" id="cvl_zip1" name="cvl_zip1" value=""/>
+                                <input type="hidden" id="cvl_zip2" name="cvl_zip2" value=""/>
+                                <div class="address-wrap write-wrap-m">
+                                    <div class="address-btn-wrap">
+                                        <div class="input-wrap">
+                                            <input id="postcode" name="user_ar_zonecode"
+                                                   class="cm_inptxt" th:value="${userVO.user_ar_zonecode}" title="우편번호 앞자리" type="text"
+                                                   readonly="readonly"/>
+                                        </div>
+                                        <button type="button" class="address-btn"
+                                                onclick="execDaumPostcode()"
+                                                title="새창열림">우편번호 찾기
+                                        </button>
+                                    </div>
+                                    <div class="input-wrap" style="width: 478px">
+                                        <input name="user_ar" id="addr1" maxlength="100"
+                                               class="cm_inptxt" title="시군구주소 입력" type="text"
+                                               th:value="${userVO.user_ar}" readonly="readonly"/>
+                                    </div>
+                                    <div class="input-wrap" style="width: 478px">
+                                        <input name="user_ar_detail" id="addr2" maxlength="50"
+                                               class="cm_inptxt" title="상세주소 입력"
+                                               type="text" value="" placeholder="상세주소"
+                                               th:value="${userVO.user_ar_detail}"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+						<tr>
+                            <th scope="row" class="txt-left">
+                                <span style="margin-left: 80px">계좌번호</span>
+                            </th>
+                            <td data-cell-header="계좌번호" class="txt-left">
+                                <div style="overflow: hidden; width: 500px">
+                                    <div class="select-box" style="margin-bottom: 10px; float: left">
+                                        <label for="selectBank"></label>
+                                        <select class="info-select" id="selectBank"
+                                                name="user_bank" title="검색조건을 선택해주세요.">
+                                            <option value="">은행목록</option>
+                                            <option value="kb" th:selected="${userVO.user_bank == 'kb'}">국민은행</option>
+                                            <option value="ibk" th:selected="${userVO.user_bank == 'ibk'}">기업은행</option>
+                                            <option value="nh" th:selected="${userVO.user_bank == 'nh'}">농협은행</option>
+                                            <option value="sh" th:selected="${userVO.user_bank == 'sh'}">신한은행</option>
+                                            <option value="wr" th:selected="${userVO.user_bank == 'wr'}">우리은행</option>
+                                            <option value="hn" th:selected="${userVO.user_bank == 'hn'}">하나은행</option>
+                                            <option value="sc" th:selected="${userVO.user_bank == 'sc'}">SC제일은행</option>
+                                        </select>
+                                    </div>
+                                    <div class="selectedBank" style="float: left">
+                                        <img src="#" alt="" id="bankIcon">
+                                        <p style="float:right;" class="selBank"></p>
+                                    </div>
+                                </div>
+                                <div class="input-wrap-three write-wrap-m">
+                                    <div class="input-wrap" style="width: 320px; display: inline-block">
+                                        <input name="user_bank_account" id="cvl_account1"
+                                               th:value="${userVO.user_bank_account}" class="cm_inptxt"
+                                               title="계좌번호" type="text"/>
+                                    </div>
+                                    <div class="input-wrap"
+                                         style="width: 150px; display: inline-block; margin-left: 5px">
+                                        <input name="user_bank_holder" maxlength="4" id="cvl_account2"
+                                               th:value="${userVO.user_bank_holder}" class="cm_inptxt"
+                                               title="예금주"
+                                               type="text" onkeydown="return num_only(event)" placeholder="예금주"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+						</form>
+                    </table>
+                </div>
+          
+				<div class="btn-wrap txt-center"  style=" margin-bottom: 20px;">
+					<a href="../mypage/main" class="btn-style btn-style39">
+						<span>취소</span>
+					</a>
+					<a href="#" class="btn-style btn-style39" id="infoChange">
+						<span>변경</span>
+					</a>
+				</div>
+      
+          </div>
+          <!-- //본문컨텐츠 영역 -->
+        
+      </article>
+    </div>
+    </div>
+    <!-- //main_con  -->
+  </div>
+
+</th:block>
+
+
+<!-- 주소찾기 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	function execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete: function(data) {
+				var addr = '';
+				
+				if (data.userSelectedType === 'R'){
+					addr = data.roadAddress;
+				} else {
+					addr = data.jibunAddress;
+				}
+				
+				document.getElementById('postcode').value = data.zonecode;
+				document.getElementById("addr1").value = addr;
+				document.getElementById("addr2").focus();
+			}
+		}).open();
+	}	
+</script>
+
+
+<!--은행정보 확인-->
+<script>
+    $("#selectBank").change(function () {
+        let selected = $("#selectBank option:selected").val();
+        if (selected == 'kb') {
+            $("#bankIcon").attr("src", "/img/app/kbIcon.png");
+            $(".selBank").html('국민은행');
+        } else if (selected == 'ibk') {
+            $("#bankIcon").attr("src", "/img/app/ibkIcon.png");
+            $(".selBank").html('기업은행');
+        } else if (selected == 'nh') {
+            $("#bankIcon").attr("src", "/img/app/nhIcon.png");
+            $(".selBank").html('농협은행');
+        } else if (selected == 'sh') {
+            $("#bankIcon").attr("src", "/img/app/shIcon.png");
+            $(".selBank").html('신한은행');
+        } else if (selected == 'wr') {
+            $("#bankIcon").attr("src", "/img/app/wrIcon.png");
+            $(".selBank").html('우리은행');
+        } else if (selected == 'hn') {
+            $("#bankIcon").attr("src", "/img/app/hnIcon.png");
+            $(".selBank").html('하나은행');
+        } else if (selected == 'sc') {
+            $("#bankIcon").attr("src", "/img/app/scIcon.png");
+            $(".selBank").html('SC제일은행');
+        } else {
+            $("#bankIcon").attr("src", "#");
+            $(".selBank").html('');
+        }
+
+    });
+
+</script>
+
+
+<!--메일주소 선택입력-->
+<script>
+    // 메일주소 선택입력-->
+    $("#mailAddr").change(function () {
+        let text = `[[${userVO.user_email_b}]]`;
+        console.log(text);
+        let selmail = $("#mailAddr option:selected").html();
+        if(selmail == '직접입력') {
+            $("#cvl_mail2").attr("value", text);
+        } else {
+            $("#cvl_mail2").attr("value", selmail);
+        }
+    });
+</script>
+
+
+<!--회원정보 수정-->
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    var passwordInput = document.getElementById("user_pw");
+	    var confirmPasswordInput = document.getElementById("confirm_password");
+	    var changeButton = document.getElementById("infoChange");
+		
+	
+	    passwordInput.addEventListener("input", validatePassword);
+	    confirmPasswordInput.addEventListener("input", validatePassword);
+	
+	    function validatePassword() {
+	        var password = passwordInput.value;
+	        var confirmPassword = confirmPasswordInput.value;
+	        var errorMessage = "";
+	        var errorElement = document.getElementById("password-error");
+	
+	        // 비밀번호 유효성 검사 규칙을 적용
+	        if (password.length < 8 || !/[A-Za-z]/.test(password) || !/[0-9]/.test(password) || !/[!@#$%^&*]/.test(password)) {
+	            errorMessage = "비밀번호는 영문, 숫자, 특수문자를 포함하여 8자 이상이어야 합니다.";
+	            changeButton.disabled = true; // 변경 버튼 비활성화
+	        } else {
+	            // 비밀번호 일치 여부 확인
+	            if (password !== confirmPassword) {
+	                errorMessage = "비밀번호가 일치하지 않습니다.";
+	                changeButton.disabled = true; // 변경 버튼 비활성화
+	            } else {
+	                changeButton.disabled = false; // 변경 버튼 활성화
+	            }
+	        }
+	
+	        // 에러 메시지 표시
+	        errorElement.textContent = errorMessage;
+	    }
+	
+	    // 변경 버튼 클릭 시 이벤트 처리
+	    changeButton.addEventListener("click", function (e) {
+	        e.preventDefault();
+	
+	        // 변경 버튼이 활성화되었을 때 수행할 동작 추가
+	        if (!changeButton.disabled) {
+	            const info = document.getElementById("info");
+	            info.submit(); // 폼 제출 또는 원하는 동작 수행
+	        }else {
+	       		alert("정보를 확인해 주세요."); // 비활성화된 경우 경고창 표시
+	  	  	}
+	    });
+	});
+
+	var inputElements = document.querySelectorAll('input[type="password"]');
+        
+    inputElements.forEach(function(inputElement) {
+        inputElement.addEventListener("click", function() {
+            this.select();
+        });
+    });
+
+
+
+</script>
+
+</html>

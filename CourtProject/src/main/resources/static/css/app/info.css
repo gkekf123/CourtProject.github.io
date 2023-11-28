@@ -1,0 +1,715 @@
+
+body {
+    margin: 100px auto;
+    font-family: Helvetica;
+    background: #FFF;
+}
+
+/* *********************************************************************************
+* 신청안내
+* *********************************************************************************/
+.regInfo {
+    width: 90%;
+    height: auto;
+    border: 1px solid #dcdcde;
+    text-align: center;
+    margin-left: 5%;
+}
+
+.regInfo > .regCheck {
+    width: 120px;
+    margin: 30px 0;
+}
+
+.regInfo > img {
+    width: 80%;
+    margin: 0 50px;
+}
+
+.regInfo p {
+    font-size: 18px;
+    font-weight: 500;
+    padding: 4px 0;
+}
+
+
+/* *********************************************************************************
+* progress 메뉴바
+* *********************************************************************************/
+
+#crumbs {
+    text-align: center;
+    > ul {
+        list-style: none;
+        display: inline-table;
+        > li {
+            display: inline;
+
+            > a {
+                display: block;
+                float: left;
+                width: 200px;
+                height: 50px;
+                background: #e5eaf3;
+
+                text-align: center;
+                padding: 15px 20px 0 60px;
+                position: relative;
+                margin: 0 10px 0 0;
+
+                font-size: 18px;
+                text-decoration: none;
+                color: #8093A7;
+
+                &:after {
+                    content: "";
+                    border-top: 25px solid transparent;
+                    border-bottom: 25px solid transparent;
+                    border-left: 30px solid #e5eaf3;
+                    position: absolute;
+                    right: -30px;
+                    top: 0;
+                    z-index: 1;
+                }
+                &:before {
+                    content: "";
+                    border-top: 25px solid transparent;
+                    border-bottom: 25px solid transparent;
+                    border-left: 30px solid #fff;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+            }
+        }
+    }
+}
+
+#crumbs {
+    > ul > li > .highlight {
+        background-color: #4860cc;
+        color: white;
+        &:after {
+            border-left: 30px solid #4860cc;
+        }
+    }
+
+}
+
+#crumbs ul li:first-child a {
+    border-top-left-radius: 10px; border-bottom-left-radius: 10px;
+}
+#crumbs ul li:first-child a:before {
+    display: none;
+}
+
+#crumbs ul li:last-child a {
+    padding-right: 40px;
+    border-top-right-radius: 10px; border-bottom-right-radius: 10px;
+}
+#crumbs ul li:last-child a:after {
+    display: none;
+}
+
+#crumbs ul li a:hover {
+    color: #2344d0 !important;
+}
+#crumbs ul li a:hover:after {
+}
+
+
+/* *********************************************************************************
+* 이전, 다음버튼
+* *********************************************************************************/
+:active, :hover, :focus {
+    outline: 0!important;
+    outline-offset: 0;
+}
+::before,
+::after {
+    position: absolute;
+    content: "";
+}
+
+.btn-holder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1000px;
+    margin: 30px auto 35px;
+}
+.btn {
+    position: relative;
+    display: inline-block;
+    width: auto; height: auto;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0px 25px 15px;
+    min-width: 160px;
+}
+.btn span {
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 15px 15px;
+    transition: 0.3s;
+}
+.prev_btn::before {
+    background-color: #5a5a60;
+    transition: 0.3s ease-out;
+}
+.next_btn::before {
+    background-color: #4860cc;
+    transition: 0.3s ease-out;
+}
+.btn-2 span {
+    color: #4860cc;
+    border: 1px solid #4860cc;
+    transition: 0.2s;
+}
+.btn-2 span:hover {
+    color: rgb(255,255,255);
+    transition: 0.2s 0.1s;
+}
+.btn.hover-opacity::before {
+    top:0; bottom: 0; left: 4px;
+    height: 100%; width: 95%;
+    opacity: 0;
+}
+.btn.hover-opacity:hover::before {
+    opacity: 1;
+}
+
+.submitCareer {
+    display: inline-block;
+    vertical-align: middle;
+    width: 77px;
+    height: 35px;
+    line-height: 35px;
+    background: #2065c6;
+    color: #fff;
+    font-size: 0.8rem;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* *********************************************************************************
+* 표 타이틀
+* *********************************************************************************/
+.sub_title {
+    font-size: 18px;
+}
+
+.add {
+    color: #1c449c;
+    font-weight: 600;
+}
+
+
+/* *********************************************************************************
+* 모달
+* *********************************************************************************/
+
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal2, .modal3, .modal4 {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+}
+
+.modal2.show,
+.modal3.show,
+.modal4.show {
+    display: block;
+}
+
+
+.modal_body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 600px;
+    height: 600px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 1px 2px 3px 1px rgba(109, 110, 110, 0.18);
+
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 2;
+}
+
+.modal2 .modalOff,
+.modal3 .modalOff,
+.modal4 .modalOff {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: url(../../img/app/deleteicon.svg) no-repeat center center;
+    background-size: 1rem 1rem;
+    font-size: 0;
+    line-height: 0;
+    right: 1.5rem;
+    top: 1.5rem;
+    cursor: pointer;
+}
+
+
+.modal_body2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 500px;
+    height: 400px;
+
+    padding-top: 40px;
+
+    text-align: center;
+
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    box-shadow: 1px 2px 3px 1px rgba(109, 110, 110, 0.18);
+
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 3;
+}
+
+.modal__background{
+    position: fixed;
+    top:0; left: 0; bottom: 0; right: 0;
+    background: rgba(0, 0, 0, 0.24);
+    z-index: 2;
+}
+
+
+element.style {
+}
+.dmui_dialog .dmui_dialog_btn {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: url(../../img/app/deleteicon.svg) no-repeat center center;
+    background-size: 1rem 1rem;
+    font-size: 0;
+    line-height: 0;
+    right: 1.5rem;
+    top: 1.5rem;
+    cursor: pointer;
+}
+
+.dmui_dialog_body {
+    width: 80%;
+    height: auto;
+    text-align: center;
+    margin-left: 10%;
+}
+.saveIcon > img {
+    padding: 30px 0 10px 0;
+    width: 60%;
+}
+
+.dmui_dialog_footer{
+    width: 500px;
+    overflow: hidden;
+    margin : 0;
+}
+
+.dmui_dialog_footer_btn {
+    width: 250px;
+    height: 50px;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.dmui_dialog_footer .save {
+    float: right;
+    background-color: black;
+    padding-top: 5px;
+    color: white;
+    border-radius: 0 0 10px 0;
+}
+
+.dmui_dialog_footer .save2 {
+    float: right;
+    background-color: black;
+    padding-top: 5px;
+    color: white;
+    border-radius: 0 0 10px 0;
+}
+
+.dmui_dialog_footer .cancel {
+    float: left;
+    background-color: #7b7b7c;
+    padding-top: 5px;
+    color: white;
+    border-radius: 0 0 0 10px;
+}
+.dmui_dialog_footer .cancel2 {
+    float: left;
+    background-color: #7b7b7c;
+    padding-top: 5px;
+    color: white;
+    border-radius: 0 0 0 10px;
+}
+
+.search-btn-wrap {
+    overflow: hidden;
+    padding-left: 12%;
+    margin: 20px;
+}
+.search-btn-wrap .input-wrap {
+    width: 300px;
+    float: left;
+}
+.search-btn-wrap #searchCerti-btn,
+.search-btn-wrap #searchHigh_btn,
+.search-btn-wrap #searchUniv_btn {
+    float: left;
+    border: 1px solid #777;
+    width: 50px;
+    height: 40px;
+    margin-left: 7px;
+    cursor: pointer;
+}
+
+.addLi, .addLi2, .addLi3 {
+    margin-left: 55px;
+    padding: 6px;
+    cursor: pointer;
+    width: 200px;
+    text-align: left;
+}
+
+.searchResultList {
+    width: 250px;
+}
+
+#searchResult2, #searchResult3, #searchResult {
+    width: 100%;
+    padding: 20px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+/* *********************************************************************************
+* select-box2
+* *********************************************************************************/
+.select-box2 {
+    display: inline-block;
+    position: relative;
+    width: auto;
+    min-width: 125px;
+    height: 40px;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #cdcdcd;
+    transition: border-color 0.3s ease;
+}
+.select-box2 + .select-box2 {
+    margin-left: 0.25rem;
+}
+.select-box2 label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0 3rem 0 1rem;
+    line-height: 38px;
+    color: #2065c6;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.select-box2 label:after {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 1rem;
+    font-size: 1rem;
+    font-family: 'xeicon';
+    transition: transform 0.3s ease;
+    content: '\e942';
+    color: #2065c6;
+}
+.select-box2 select.info-select {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0 none;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    vertical-align: top;
+    cursor: pointer;
+    z-index: 1;
+}
+.select-box2:hover,
+.select-box2:active,
+.select-box2:focus {
+    border-color: #555 !important;
+}
+.select-box2:hover label {
+    color: #333;
+}
+.select-box2:hover label:after,
+.select-box2:active label:after,
+.select_box2:focus label:after {
+    color: #333;
+    transform: translateY(-50%) rotate(180deg);
+}
+.select-box2.select-box-ful {
+    width: 100%;
+    min-width: inherit;
+}
+.select-box2.focus {
+    outline: -webkit-focus-ring-color auto 1px;
+}
+
+
+/* *********************************************************************************
+* 은행선택
+* *********************************************************************************/
+
+.selectedBank {
+    margin-left: 30px;
+    padding-top: 10px;
+    font-size: 18px;
+}
+#bankIcon {
+    width: 25px;
+    height: auto;
+    margin-right: 10px;
+}
+
+/* *********************************************************************************
+* 자격증 검색창 버튼
+* *********************************************************************************/
+
+.certiSearch {
+    background: url(../../img/app/search.png);
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    position: absolute;
+    margin-left: -38px;
+    margin-top: 5px;
+}
+
+/* *********************************************************************************
+* 희망법원선택
+* *********************************************************************************/
+
+table.list td {
+    height: 20px;
+    padding: 3px 5px 2px 5px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+}
+
+ul.ullistscourt {
+    margin: 10px 0 10px 10px;
+}
+
+* html ul.ullistscourt {
+    margin: 10px 0 0 10px;
+}
+
+*+html ul.ullistscourt {
+    height: 110px;
+}
+
+ul.ullistscourt:after {
+    content: "";
+    display: block;
+    clear: both;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+}
+
+html[xmlns] ul.ullistscourt {
+    display: block;
+}
+
+* html ul.ullistscourt {
+    height: 1%;
+}
+
+ul.ullistscourt li {
+    float: left;
+    width: 180px;
+}
+
+ul.ullistscourt li.center {
+    width: 140px;
+    text-align: center;
+    padding: 70px 0 0 15px;
+}
+
+* html ul.ullistscourt li.center {
+    padding: 40px 0 0 0;
+}
+
+ul.ullistscourt li p.title {
+    position: relative;
+    line-height: 15px;
+
+}
+
+
+ul.ullistscourt li select.listscourt {
+    width: 200px;
+    height: 100px;
+    border: 1px solid #ddd;
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+ul.ullistscourt li select.listscourt2 {
+    width: 200px;
+    height: 150px;
+    border: 1px solid #ddd;
+    margin: 5px 0 0 0;
+    font-size: 14px;
+}
+
+#from_bub_cd {
+    padding: 0;
+    color: #737373;
+    font-size: 14px;
+    line-height: 19px;
+    background: #fff;
+}
+
+#lblWishText {
+    display: inline-block;
+    margin: 7px 20% 0 10px;
+    /*vertical-align: top;*/
+    font-size: 14px;
+    color: #3e8fee;
+    float: right;
+}
+
+/* 테이블안에 버튼 */
+.btnin, .btnin *{
+    display:inline-block;
+    overflow:visible;
+    position:relative;
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:11px;
+    color: #72a8fe;
+    line-height:20px;
+    letter-spacing:-1px;
+    text-decoration:none;
+    vertical-align:top;
+    white-space:nowrap;
+    background:url('../../img/app/bg_btnin.gif') no-repeat;
+    cursor:pointer;
+}
+/* 셀렉트 버튼 */
+.btninSel, .btninSel *{
+    display:inline-block;
+    overflow:visible;
+    position:relative;
+    margin:0;
+    padding:0;
+    border:0;
+    font-size:11px;
+    color: #000;
+    line-height:20px;
+    letter-spacing:-1px;
+    text-decoration:middle;
+    vertical-align:top;
+    white-space:nowrap;
+    background:url('/ogidocs/images/bg_btnin.gif') no-repeat;
+    cursor:pointer;
+}
+.btnin, .btnin *{
+    height:20px;
+    line-height:20px;
+}
+.btnin{
+    background-position:left top;
+    margin-right:4px;
+}
+.btnin *{
+    padding:1px 7px 0 3px;
+    background-position:right top;
+    text-decoration:none;
+    left:4px;
+}
+.btnin a:hover, .btnin a:active, .btnin a:hover{
+    color:#4f58bc;
+    text-decoration:none;
+}
+
+/* *********************************************************************************
+* 희망법원선택
+* *********************************************************************************/
+
+.txtInfo {
+    width: 450px;
+    margin: 5px 100px 0 0;
+    border: 1px solid #c9c8c8;
+
+}
+
+.txtInfo2 {
+    width: 600px;
+    height: 80px;
+    margin: 5px 50px 0 50px;
+    border: 1px solid #c9c8c8;
+
+}
+
+/* *********************************************************************************
+* 경력테이블
+* *********************************************************************************/
+
+.careerTable, .eduTable {
+    width: 100%;
+    overflow: auto;
+}
+
+
+

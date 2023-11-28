@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{./../css/app/info.css}"/>
+<script th:src="@{./../js/app/info.js}"></script>
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+
+    <div class="wrap">
+        <div id="main_con">
+            <div id="nav_menu">
+                <div id="lnb">
+                    <h2 class="title">조력자등재신청</h2>
+                    <div class="menu">
+                        <ul>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">조력자 등재신청</a>
+                            </li>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">조력자 등재명단</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div id="contents">
+                <div class="heading-wrap container">
+                    <h3 class="heading1">
+                        <span>재판조력자 등재신청</span>
+                    </h3>
+                </div>
+
+                <div class="regInfo">
+                    <img src="../img/app/aplcnRegInfo.png">
+                </div>
+
+                <div class="table table-responsive" style="margin: 50px 0 30px 0">
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th scope="col">모집유형</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">모집시작일자</th>
+                            <th scope="col">모집마감일자</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="cursor: pointer">
+                            <td data-cell-header="모집유형">
+                                [[${avo.trial_fcltt_main_code} + ' > ' + ${avo.trial_fcltt_clasifi_code} + (${avo.trial_fcltt_sbcls_code} == null? '' :  ' > ' + ${avo.trial_fcltt_sbcls_code}) ]]
+                            </td>
+                            <td data-cell-header="제목">[[${avo.announce_title}]]</td>
+                            <td data-cell-header="시작일자">
+                                <p>[[${avo.announce_start_date}]]</p>
+                            </td>
+                            <td data-cell-header="마감일자">
+                                <p>[[${avo.announce_end_date}]]</p>
+                            </td>
+<!--                            <td>-->
+<!--                                <a th:href="@{../app/confirm}" class="case case1"><em>신청</em></a>-->
+<!--                            </td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <p style="margin: 0 0 30px 0; text-align: center">신청하려는 공고 및 모집 유형을 확인 후, '신청' 버튼을 클릭하세요.</p>
+
+                <div class="btn-holder">
+                    <button class="btn btn-2 hover-opacity prev_btn">
+                        <span>◀ 목록으로</span>
+                    </button>
+
+                    <em style="padding-top: 15px"> </em>
+
+                    <button class="btn btn-2 hover-opacity next_btn">
+                        <span>신청하기 ▶</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</th:block>
+
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    if (msg !== 'null') {
+        alert(msg);
+    }
+
+</script>
+
+<script>
+    $(".prev_btn").click(function () {
+        $(location).attr("href", "../announce/announceList");
+    })
+    $(".next_btn").click(function () {
+        $(location).attr("href", "../app/confirm");
+    })
+</script>
+
+
+</html>

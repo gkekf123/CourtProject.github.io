@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.court.proj.aplcn.AplcnMapper">
+
+
+	<!-- 등재하기 -->
+	<insert id="aplcnAccept">
+		insert into TB_014(accept_date,
+		accept_etc,
+		accept_act_yn,
+		user_proper_num,
+		trial_fcltt_proper_num,
+		court_proper_num)
+		values
+		(#{accept_date},
+		#{accept_etc},
+		#{accept_act_yn},
+		#{user_proper_num},
+		#{trial_fcltt_proper_num},
+		#{court_proper_num})
+	</insert>
+
+	<!-- 평가완료 점수보기 -->
+	<select id="getScore">
+		select * from TB_013 where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num};
+
+	</select>
+
+	<!-- 신청자 평가 -->
+	<insert id="aplcnEvaluate">
+		insert into TB_013(all_carer_score,
+		jrsdc_carer_score,
+		office_score,
+		personality_score,
+		interview_score,
+		certificate_score,
+		evaluate_score,
+		judge_recom_score,
+		review_etc,
+		aplcn_dtls_proper_num,
+		admin_proper_num)
+		values(#{all_carer_score},
+		#{jrsdc_carer_score},
+		#{office_score},
+		#{personality_score},
+		#{interview_score},
+		#{certificate_score},
+		#{evaluate_score},
+		#{judge_recom_score},
+		#{review_etc},
+		#{aplcn_dtls_proper_num},
+		#{admin_proper_num})
+	</insert>
+
+	<!-- 신청자 리스트 -->
+	<select id="getList">
+		SELECT
+		T1.user_proper_num AS user_proper_num,
+		T1.user_name AS user_name,
+		T3.court_name AS court_name,
+		T4.trial_fcltt_clasifi_code AS
+		trial_fcltt_clasifi_code,
+		T2.aplicn_dtls_sts AS aplicn_dtls_sts,
+		T2.aplcn_dtls_proper_num AS
+		aplcn_dtls_proper_num,
+		T2.aplicn_dtls_date
+		AS aplicn_dtls_date
+		FROM
+		TB_001 T1
+		INNER JOIN
+		TB_005 T2 ON
+		T1.user_proper_num =
+		T2.user_proper_num
+		INNER JOIN
+		TB_011 T3 ON
+		T2.court_proper1 =
+		T3.court_name
+		INNER JOIN
+		TB_010 T4 ON
+		T2.trial_fcltt_proper_num =
+		T4.trial_fcltt_proper_num
+
+		where T2.aplicn_dtls_sts in ('신청완료', '심사중', '서류반려', '평가완료', '합격')
+
+
+		<if
+			test="cri.searchField != '' and cri.searchField != null and cri.searchField == 'user_name'">
+			and T1.${cri.searchField} like concat('%', #{cri.searchContent},
+			'%')
+		</if>
+		<if
+			test="cri.searchField != '' and cri.searchField != null and cri.searchField == 'trial_fcltt_clasifi_code'">
+			and T4.${cri.searchField} like concat('%',
+			#{cri.searchContent},
+			'%')
+		</if>
+		<if
+			test="cri.searchField != '' and cri.searchField != null and cri.searchField == 'court_name'">
+			and T3.${cri.searchField} like concat('%', #{cri.searchContent},
+			'%')
+		</if>
+		<if
+			test="cri.aplicn_dtls_sts != '' and cri.aplicn_dtls_sts != null and cri.aplicn_dtls_sts != '선택' ">
+			and aplicn_dtls_sts like concat('%', #{cri.aplicn_dtls_sts},
+			'%')
+		</if>
+
+		limit
+		#{cri.pageStart}, #{cri.amount}
+
+	</select>
+
+	<!-- 신청자 상세정보 (단수값) -->
+	<select id="getDetail" parameterType="int">
+		select * from TB_005 tb5
+		join TB_001 tb1 on tb5.USER_PROPER_NUM = tb1.USER_PROPER_NUM
+		join
+		TB_010 tb10 on tb10.trial_fcltt_proper_num =
+		tb5.trial_fcltt_proper_num
+		where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num};
+	</select>
+
+
+	<!-- 신청자 상태변환 서류반려 -->
+	<update id="aplcnReject">
+		update tb_005 set
+		aplicn_dtls_sts = #{aplicn_dtls_sts}
+		where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num} and
+		user_proper_num = #{user_proper_num}
+	</update>
+
+	<!-- 신청자 상태변환 평가완료 -->
+	<update id="aplcnCompleted">
+		update tb_005 set
+		aplicn_dtls_sts = #{aplicn_dtls_sts}
+		where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num}
+	</update>
+
+	<!-- 신청자 리스트 Count -->
+	<select id="getTotal" resultType="int">
+		SELECT
+		count(*) total
+
+		FROM
+		TB_001 T1
+		INNER JOIN
+		TB_005 T2 ON
+		T1.user_proper_num =
+		T2.user_proper_num
+		INNER JOIN
+		TB_011 T3 ON
+		T2.court_proper1 =
+		T3.court_name
+		INNER JOIN
+		TB_010
+		T4 ON
+		T2.trial_fcltt_proper_num =
+		T4.trial_fcltt_proper_num
+
+		where T2.aplicn_dtls_sts in ('신청완료', '심사중', '서류반려', '평가완료', '합격')
+		
+		<if
+			test="cri.searchField != '' and cri.searchField != null and cri.searchField == 'user_name'">
+			and T1.${cri.searchField} like concat('%', #{cri.searchContent},
+			'%')
+		</if>
+		<if
+			test="cri.searchField != '' and cri.searchField != null and cri.searchField == 'trial_fcltt_clasifi_code'">
+			and T4.${cri.searchField} like concat('%',
+			#{cri.searchContent},
+			'%')
+		</if>
+		<if
+			test="cri.searchField != '' and cri.searchField != null and cri.searchField == 'court_name'">
+			and T3.${cri.searchField} like concat('%', #{cri.searchContent},
+			'%')
+		</if>
+		<if
+			test="cri.aplicn_dtls_sts != '' and cri.aplicn_dtls_sts != null and cri.aplicn_dtls_sts != '선택' ">
+			and aplicn_dtls_sts like concat('%', #{cri.aplicn_dtls_sts},
+			'%')
+		</if>
+
+	</select>
+
+	<!-- 파일 다운로드 -->
+	<select id="aplcnFiles">
+		select
+		t9.aplcn_atch_file_proper_num,
+		t9.aplcn_dtls_proper_num,
+		t9.file_code,
+		t9.file_type,
+		t9.original_file_name,
+		t9.file_path
+		FROM tb_009 t9
+		WHERE
+		t9.aplcn_dtls_proper_num = #{aplcn_dtls_proper_num};
+	</select>
+
+	<!-- 신청자 학력 상세 -->
+	<select id="getEdctnList">
+		select * from TB_006 where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num}
+	</select>
+
+	<!-- 신청자 경력 상세 -->
+	<select id="getCarerList">
+		select * from TB_007 where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num}
+	</select>
+
+	<!-- 신청자 자격증 상세 -->
+	<select id="getCrtfcList">
+		select * from TB_008 where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num}
+	</select>
+
+	<!-- 파일 다운로드 -->
+	<select id="getFileList">
+		select * from TB_009 where aplcn_dtls_proper_num =
+		#{aplcn_dtls_proper_num}
+
+	</select>
+
+	<update id="updateSts">
+		update TB_005 set aplicn_dtls_sts = '심사중' where
+		aplcn_dtls_proper_num = #{aplcn_dtls_proper_num}
+	</update>
+
+</mapper>

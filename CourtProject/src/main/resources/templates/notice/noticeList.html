@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+	<!-- wrap start -->
+	<div class="wrap">
+		<!-- main_con start  -->
+		<div id="main_con">
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">공지사항</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">모집공고</a>
+								<ul class="sub" style="display: none;">
+									<li sec:authorize="hasRole('ROLE_SUPERADMIN')"><a
+											href="../announce/announceRegist">모집공고 등록</a></li>
+									<li><a href="../announce/announceList">모집공고 목록</a></li>
+								</ul>
+							</li>
+							<li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">공지사항</a>
+								<ul class="sub" style="display: none;">
+									<li sec:authorize="hasRole('ROLE_SUPERADMIN')"><a href="/notice/noticeRegist">공지사항
+											등록</a></li>
+									<li><a href="/notice/noticeList">공지사항 목록</a></li>
+								</ul>
+							</li>
+							<li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">FAQ</a>
+								<ul class="sub" style="display: none;">
+									<li sec:authorize="hasRole('ROLE_SUPERADMIN')"><a href="../faq/regist">FAQ 등록</a>
+										<div id="userRole" style="font-size: 1px; color: #f6f6f6;">
+											[[${#authentication.principal.authorities}]]</div>
+									</li>
+									<li><a href="../faq/faqList">FAQ 목록</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div id="contents">
+
+				<style>
+					@media screen and (max-width: 1024px) {
+						.table-responsive>table>tbody>tr td[data-cell-header]:before {
+							width: 30%;
+							margin: 0 0 0 0;
+							vertical-align: unset;
+						}
+					}
+
+					.table-responsive>table>tbody>tr:hover {
+						background-color: #e6f8ff;
+					}
+
+					@media screen and (min-width: 1100px) {
+						#select-box-margin-left-10 {
+							margin-left: 6px;
+						}
+					}
+
+				
+				</style>
+				<article id="detail-content">
+					<form id="listForm" name="searchForm" action="noticeList" method="get">
+						<input type="hidden" id="cd_appeal_form" name="cd_appeal_form" value="ALL" />
+						<input type="hidden" id="srch_gubn" name="srch_gubn" value="" />
+						<input type="hidden" id="srch_cd_appeal_form" name="srch_cd_appeal_form" value="" />
+						<input type="hidden" id="search_capp_biz_cd" name="search_capp_biz_cd" value="" />
+						<input type="hidden" id="cate_name" name="cate_name" value="" />
+						<input type="hidden" id="sub_cate_name" name="sub_cate_name" value="" />
+						<div class="heading-wrap container">
+							<h3 class="heading1" style="border-bottom: 2.5px solid #4860cc;">
+								<span>공지사항</span>
+							</h3>
+						</div>
+
+						<!-- 본문컨텐츠 영역 start -->
+						<div class="container">
+							<!-- searchform searchform2 start -->
+							<div class="searchform searchform2">
+								<div class="searchform-wrap">
+									<div class="select-box">
+										<label for="selectTit"></label>
+										<select class="info-select" id="selectTit" name="searchContent"
+											title="검색조건을 선택해주세요.">
+											<option value="searchAll">전체</option>
+											<option value="serachNotice_title">제목</option>
+											<option value="serachNotice_content">내용</option>
+										</select>
+									</div>
+
+									<div class="search-input-wrap">
+										<div class="input-wrap">
+											<input type="text" name="searchContent2" value=""
+												onkeypress="if(window.event.keyCode == 13) srchMinwonDoc();"
+												class="form-control" placeholder="검색어를 입력해주세요" title="검색어를 입력해주세요"
+												id="q_string" />
+										</div>
+										<button type="button" class="search-btn" id="searchBtn">
+											<i class="xi-search"></i>
+											<span class="sr-only">검색</span>
+										</button>
+									</div>
+
+									<div class="select-box" id="select-box-margin-left-10">
+										<label for="selectTit"></label>
+										<select name="view_cnt" id="view_cnt" class="info-select" title="게시판 목록보기 갯수선택"
+											style="min-width: 170px">
+											<option value="10">10개씩 보기</option>
+											<option value="20">20개씩 보기</option>
+											<option value="50">50개씩 보기</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<!-- table-t-wrap start -->
+							<div class="table-t-wrap">
+								<div class="total-num">총 게시글 <em>[[${pageVO.total}]]</em>건</div>
+							</div>
+							<!-- //table-t-wrap end -->
+
+							<!-- 게시판 시작 부분 start -->
+							<div class="table table-responsive">
+								<table>
+									<caption>
+										번호, 제목, 작성자, 등록일
+									</caption>
+									<colgroup>
+										<col style="width: 20%" />
+										<col style="width: 45%" />
+										<col style="width: 20%" />
+										<col style="width: 15%" />
+									</colgroup>
+									<thead>
+										<tr>
+											<th scope="col">번호</th>
+											<th scope="col">제목</th>
+											<th scope="col">작성자</th>
+											<th scope="col">등록일</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="vo, status : ${list}" th:id="'notice_' + ${vo.notice_proper_num}"
+											class="clickable-row"
+											style="cursor: pointer; color: red; font-weight: 800; background-color: rgb(219, 243, 255); "
+											th:if="${vo.notice_title.startsWith('중요')}">
+											<td style="color: rgb(0, 0, 0);" data-cell-header="번호"></td>
+											<a
+												th:href="'/notice/noticeDetail?notice_proper_num=' + ${vo.notice_proper_num}">
+												<td style="color: rgb(0, 0, 0);" data-cell-header="대분류">
+													[[${vo.notice_title}]]
+												</td>
+												<td data-cell-header="중분류">[[${vo.admin_name}]]</td>
+												<td data-cell-header="작성일자">[[${vo.notice_date}]]</td></a>
+										</tr>
+										<tr th:each=" vo, status : ${list}" style="cursor: pointer"
+											th:id="'notice_' + ${vo.notice_proper_num}" class="clickable-row">
+											<td data-cell-header="번호">[[${status.count}]]</td>
+											<td data-cell-header="대분류">
+												<a
+													th:href="'/notice/noticeDetail?notice_proper_num=' + ${vo.notice_proper_num}">[[${vo.notice_title}]]</a>
+											</td>
+											<td data-cell-header="중분류">[[${vo.admin_name}]]</td>
+											<td data-cell-header="작성일자">[[${vo.notice_date}]]</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!-- 게시판 시작 부분 end -->
+
+							<!-- pagenation -->
+							<!-- 페이지네이션 -->
+							<div class="pager">
+								<div class="pager-wrap">
+									<a href="#" class="arr first" title="처음으로"
+										th:href="@{'/notice/noticeList?page=1&amount=' + ${pageVO.cri.amount}}"><strong
+											class="sr-only">맨 처음 목록으로 이동</strong></a>
+									<a href="#" class="arr prev" title="이전으로" th:if="${pageVO.prev}"
+										th:href="@{'/notice/noticeList?page=' + ${pageVO.prev}}"><strong
+											class="sr-only">이전페이지로 이동</strong></a>
+
+									<!-- 페이지 번호 -->
+									<span th:each="pageNum : ${pageVO.pageList}" th:classappend="${pageNum == pageVO.cri.page} ? 'active' : ''">
+										<a href="#"
+											th:href="@{'/notice/noticeList?page=' + ${pageNum} + '&amount=' + ${pageVO.cri.amount}}"
+											
+											th:text="${pageNum}"></a>
+									</span>
+									<a href="#" class="arr next" title="다음으로" th:if="${pageVO.next}"
+										th:href="@{'/notice/noticeList?page=' + ${pageVO.cri.next}}"><strong
+											class="sr-only">다음페이지로 이동</strong></a>
+
+									<a href="#" class="arr last" title="마지막으로"
+										th:href="@{'/notice/noticeList?page=' + ${pageVO.realEnd}}"><strong
+											class="sr-only">맨 마지막 목록으로 이동</strong></a>
+								</div>
+							</div>
+
+							<!-- //pagenation end -->
+						</div>
+						<!-- //본문컨텐츠 영역 end -->
+					</form>
+				</article>
+			</div>
+		</div>
+		<!-- //main_con end -->
+	</div>
+	<!-- wrap end -->
+</th:block>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// 클릭 가능한 행에 대한 이벤트 핸들러 추가
+		var rows = document.querySelectorAll(".clickable-row");
+		rows.forEach(function (row) {
+			row.addEventListener("click", function () {
+				// 해당 공고의 notice_proper_num 가져오기
+				var noticeProperNum = this.id.replace("notice_", "");
+				// 공고 상세 페이지로 이동
+				window.location.href = "/notice/noticeDetail?notice_proper_num=" + noticeProperNum;
+			});
+		});
+	});
+
+
+
+	//데이터 핸들링
+	function handleChange(event) {
+		document.searchForm.amount.value = event.target.value;
+		document.searchForm.submit();
+
+	}
+
+	// 검색버튼기능
+	var searchBtn = document.getElementById("searchBtn");
+
+	searchBtn.onclick = function () {
+
+		event.preventDefault(); // a 태그 중지버튼
+		document.searchForm.submit();	// 폼태그 서브밋
+	}
+
+
+
+
+
+
+
+
+</script>
+
+<script th:inline="javascript">
+
+	var msg = '[[${msg}]]';
+	if (msg != 'null') {
+		alert(msg);
+	}
+
+</script>
+
+</html>

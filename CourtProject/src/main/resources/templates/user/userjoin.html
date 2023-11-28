@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" th:href="@{./../../css/app/info.css}" />
+	<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+	<div class="wrap">
+		<div id="main_con">
+			<form action="/user/joinForm" id="joinForm" method="post">
+				<div id="contents" style="width: 70%; float: none; margin: 0 auto; padding-left: 120px;">
+					<div class="heading-wrap container">
+						<h3 class="heading1">
+							<span style="margin-bottom: 20px;">회원가입</span>
+						</h3>
+						<span style="color: crimson;">* 는 필수입력 항목 입니다.</span>
+						<div class="table table-responsive">
+							<table>
+								<tbody>
+									<tr style="padding-top: 20px">
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="필수항목" style="margin-left:75px">아이디</span>
+										</th>
+										<style>
+											input::placeholder {
+												font-size: 14px !important;
+												/* 원하는 글자 크기로 설정 */
+											}
+										</style>
+										<td class="txt-left">
+											<div class="address-wrap write-wrap-m">
+												<div class="address-btn-wrap">
+													<div class="input-wrap">
+														<input id="userid" name="user_id" class="cm_inptxt"
+															th:value="${vo !=null? vo.user_id : ''}" title=""
+															placeholder="7~16자의 영소문자 + 숫자 조합" type="text" />
+
+													</div>
+													<button type="button" class="address-btn" id="checkDuple" title="">
+														아이디 중복확인
+													</button>
+												</div>
+												<em id="resultMessage"></em>
+												<em id="validMessage">[[${valid_user_id}]]</em>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="" style="margin-left: 80px">성명</span>
+										</th>
+										<td class="txt-left">
+											<div class="input-wrap-three write-wrap-m"
+												style="width: 162px; display: inline-block">
+												<div class="input-wrap" style="width: 200px;">
+													<input name="user_name" id="cvl_nm"
+														th:value="${vo!= null ? vo.user_name : ''}" class="cm_inptxt"
+														type="text" />
+
+												</div>
+											</div>
+											<em style="padding-left: 70px;"></em>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="필수항목"
+												style="margin-left: 80px">비밀번호</span>
+										</th>
+										<td class="txt-left">
+											<div class="input-wrap-three write-wrap-m"
+												style="width: 162px; display: inline-block">
+												<div class="input-wrap" style="width: 200px">
+													<input name="user_pw" id="password" class="cm_inptxt"
+														placeholder="8~16자 영문+숫자 조합" type="password" />
+												</div>
+											</div>
+											<em style="padding-left: 70px;">[[${valid_user_pw}]]</em>
+											<br>
+											<input type="checkbox" name="showPw" id="showPw"
+												style="display: inline-block;">
+											<label for="showPw">비밀번호 보이기</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="필수항목"
+												style="margin-left: 80px">비밀번호확인</span>
+										</th>
+										<td class="txt-left">
+											<div class="input-wrap-three write-wrap-m"
+												style="width: 162px; display: inline-block">
+												<div class="input-wrap" style="width: 200px">
+													<input id="password-confirm" value="" class="cm_inptxt"
+														type="password" />
+												</div>
+
+												<span style="color: crimson;" id="password-confirm-message"></span>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="" style="margin-left: 80px">주민등록번호</span>
+										</th>
+										<td class="txt-left">
+											<div class="input-wrap" style="width: 200px; display: inline-block">
+												<input name="user_rrn_f" id="cvl_nm"
+													th:value="${vo!= null ? vo.user_rrn_f : ''}" class="cm_inptxt"
+													maxlength="6" type="text">
+											</div>
+											<span>-</span>
+											<div class="input-wrap" style="width: 200px; display: inline-block">
+												<input name="user_rrn_b" id="cvl_nm" value="" class="cm_inptxt"
+													maxlength="7" type="password">
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<span class="essential-txt" title="필수항목" style="margin-left: 80px">직업</span>
+										</th>
+										<td class="txt-left">
+											<div class="input-wrap" style="width: 200px; display: inline-block">
+												<input name="user_job" id="cvl_job"
+													th:value="${vo!= null ? vo.user_job : ''}" class="cm_inptxt"
+													type="text" />
+											</div>
+										</td>
+									</tr>
+									<tr style="padding-top: 20px">
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="필수항목"
+												style="margin-left: 80px">전화번호</span>
+										</th>
+										<td class="txt-left">
+											<div class="address-wrap write-wrap-m" style="width: 600px;">
+												<div class="address-btn-wrap">
+													<div class="input-wrap">
+														<input id="phoneNumber" name="user_phone2" class="cm_inptxt"
+															th:value="${vo!= null ? vo.user_phone : ''}" maxlength="13"
+															title="" type="text" placeholder="'-'을 제외하고 입력" />
+														<input type="hidden" name="user_phone" value="" id="userphone">
+													</div>
+													<button type="button" class="address-btn" id="phoneBtn">인증번호 받기
+													</button>
+
+												</div>
+
+												<div class="address-btn-wrap showPhone"
+													style="padding-top: 0.5rem; display: none;">
+													<div class="input-wrap" style="float: left;">
+														<input id="phoneCheck" name="" class="cm_inptxt" value=""
+															title="" type="text" />
+													</div>
+													<button type="button" class="address-btn" id="phoneCheckBtn">인증번호 확인
+													</button>
+												</div>
+											</div>
+											<em
+												style="padding-left: 10px; padding-top: 5px;">[[${valid_user_phone}]]</em>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span class="essential-txt" title="" style="margin-left: 80px">이메일</span>
+										</th>
+										<td class="txt-left">
+											<div class="input-wrap" style="width: 200px; display: inline-block">
+												<input name="user_email_f" id="cvl_mail"
+													th:value="${vo!= null ? vo.user_email_f : ''}" class="cm_inptxt"
+													type="text">
+											</div>
+											<span style="margin: 7px">@</span>
+											<div class="input-wrap" style="width: 200px; display: inline-block">
+												<input name="user_email_b" id="cvl_mail2" value="직접입력" class="cm_inptxt"
+													th:value="${vo!= null ? vo.user_email_b : ''}" type="text">
+											</div>
+											<div class="select-box" style="padding: 9px;">
+												<select name="" id="mailAddr" class="info-select">
+													<option value="">직접입력</option>
+													<option>naver.com</option>
+													<option>hanmail.net</option>
+													<option>gmail.com</option>
+													<option>daum.net</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="border-none txt-left">
+											<span class="essential-txt" title="필수항목" style="margin-left: 80px">주소</span>
+										</th>
+										<td class="txt-left essential-responsive">
+											<input type="hidden" id="cvl_zip1" name="cvl_zip1" value="" />
+											<input type="hidden" id="cvl_zip2" name="cvl_zip2" value="" />
+											<div class="address-wrap write-wrap-m">
+												<div class="address-btn-wrap">
+													<div class="input-wrap">
+														<input id="postcode" name="user_ar_zonecode" class="cm_inptxt"
+															value="" title="우편번호 앞자리" type="text" readonly="readonly" />
+													</div>
+													<button type="button" class="address-btn"
+														onclick="execDaumPostcode()" title="새창열림">우편번호 찾기
+													</button>
+												</div>
+												<div class="input-wrap" style="width: 478px">
+													<input name="user_ar" id="addr1" maxlength="100" class="cm_inptxt"
+														title="시군구주소 입력" type="text" value="" readonly="readonly" />
+												</div>
+												<div class="input-wrap" style="width: 478px">
+													<input name="user_ar_detail" id="addr2" maxlength="50"
+														class="cm_inptxt" title="상세주소 입력" type="text" value=""
+														placeholder="상세주소" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row" class="txt-left">
+											<em>*</em>
+											<span style="margin-left: 80px">계좌번호</span>
+										</th>
+										<td data-cell-header="계좌번호" class="txt-left">
+											<div style="overflow: hidden; width: 500px">
+												<div class="select-box" style="margin-bottom: 10px; float: left">
+													<label for="selectBank"></label>
+													<select class="info-select" id="selectBank" name="user_bank"
+														title="검색조건을 선택해주세요.">
+														<option value="">은행목록</option>
+														<option value="kb">국민은행</option>
+														<option value="ibk">기업은행</option>
+														<option value="nh">농협은행</option>
+														<option value="sh">신한은행</option>
+														<option value="wr">우리은행</option>
+														<option value="hn">하나은행</option>
+														<option value="sc">SC제일은행</option>
+													</select>
+												</div>
+												<div class="selectedBank" style="float: left">
+													<img src="#" alt="" id="bankIcon">
+													<p style="float:right;" class="selBank"></p>
+												</div>
+											</div>
+											<div class="input-wrap-three write-wrap-m">
+												<div class="input-wrap" style="width: 320px; display: inline-block">
+													<input name="user_bank_account" id="useraccount"
+														th:value="${vo!= null ? vo.user_bank_account : ''}"
+														class="cm_inptxt" title="계좌번호" type="text" maxlength="14"
+														onkeydown="return num_only(event)"
+														placeholder=" '-' 을 제외한 계좌번호" />
+												</div>
+												<div class="input-wrap"
+													style="width: 150px; display: inline-block; margin-left: 5px">
+													<input name="user_bank_holder" id="userholder"
+														th:value="${vo!= null ? vo.user_bank_holder : ''}"
+														class="cm_inptxt" title="예금주" type="text" placeholder="예금주" />
+												</div>
+											</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="btn-holder">
+							<button class="btn btn-2 hover-opacity prev_btn" id="joinBtn">
+								<span>가입</span>
+							</button>
+							<button class="btn btn-2 hover-opacity next_btn">
+								<span>취소</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</th:block>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript" th:src="@{./../../js/user/user.js}"></script>
+<script>
+	function execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete: function (data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('postcode').value = data.zonecode;
+				document.getElementById("addr1").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("addr2").focus();
+			}
+		}).open();
+	}
+
+	//가입버튼
+	$('#joinBtn').click(function (event) {
+		// 폼을 제출
+		if (checkId && checkPhone && checkPw) {
+			$('#joinForm').submit();
+		}
+	});
+</script>
+
+
+
+
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{./../css/app/info.css}"/>
+<script th:src="@{./../js/app/jquery-1.11.3.min.js}"></script>
+<script th:src="@{./../js/korean/jquery-ui.min.js}"></script>
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+
+    <div class="wrap">
+        <div id="main_con">
+            <div id="nav_menu">
+                <div id="lnb">
+                    <h2 class="title">조력자등재신청</h2>
+                    <div class="menu">
+                        <ul>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">조력자 등재신청</a>
+                            </li>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">조력자 등재명단</a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div id="contents">
+                <div class="heading-wrap container">
+                    <h3 class="heading1">
+                        <span>재판조력자 등재신청</span>
+                    </h3>
+                </div>
+
+                <div id="crumbs">
+                    <ul>
+                        <li><a href="../app/info">기본정보</a></li>
+                        <li><a href="#2" class="highlight">경력상세</a></li>
+                        <li><a href="../app/edu">학력상세</a></li>
+                        <li><a href="../app/file">서류제출</a></li>
+                    </ul>
+                </div>
+
+                <form name="actionForm" action="saveCareerForm" method="post">
+                    <input type="hidden" name="x" id="xField" value="">
+
+                    <div style="overflow: hidden">
+                        <div style="margin-top: 40px; float: left">
+                            <span class="sub_title">경력상세</span>
+                        </div>
+                        <button type="button" class="add" id="caAddBtn" style="float: right; padding: 43px 27px 0 0">경력
+                            추가
+                        </button>
+                    </div>
+                    <div class="table careerTable" style="overflow: auto">
+                        <table style="white-space: nowrap">
+                            <thead>
+                            <tr>
+                                <th scope="col">회사/활동기관명</th>
+                                <th scope="col">경력구분</th>
+                                <th scope="col">부서</th>
+                                <th scope="col">직책</th>
+                                <th scope="col">수행업무</th>
+                                <th scope="col">근무시작일자</th>
+                                <th scope="col">근무종료일자</th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            <tbody id="careerTable">
+                            <th:block th:if="${caList != null}">
+                                <tr th:each="cavo, status : ${caList}" style="cursor: pointer">
+                                    <td data-cell-header="회사"><input type="text" class="input-wrap"
+                                                                     th:value="${cavo.company_name}"
+                                                                     name="company_name[]">
+                                    </td>
+                                    <td data-cell-header="경력구분" style="text-align: left">
+                                        <div class="radio1">
+                                            <input type="radio" th:name="'carer_typeList['+ ${status.index} + ']'"
+                                                   id="'radio1'+${status.count}" value="CA"
+                                                   th:checked="${cavo.carer_type == 'CA'}">
+                                            <label class="custom-control-label" th:for="'radio1'+${status.count}">법정감정인
+                                                경력</label>
+                                        </div>
+                                        <div class="radio2" style="margin-top: 3px">
+                                            <input type="radio" th:name="'carer_typeList['+${status.index} + ']'"
+                                                   id="'radio2'+${status.count}" value="OT"
+                                                   th:checked="${cavo.carer_type == 'OT'}">
+                                            <label class="custom-control-label" th:for="'radio2'+${status.count}">기타
+                                                경력</label>
+                                        </div>
+                                    </td>
+                                    <td data-cell-header="부서"><input type="text" class="input-wrap" style="width: 120px"
+                                                                     th:value="${cavo.work_department}"
+                                                                     name="work_department[]">
+                                    </td>
+                                    <td data-cell-header="직책"><input type="text" class="input-wrap" style="width: 120px"
+                                                                     th:value="${cavo.work_position}"
+                                                                     name="work_position[]">
+                                    </td>
+                                    <td data-cell-header="수행업무"><input type="text" class="input-wrap"
+                                                                       style="width: 180px"
+                                                                       th:value="${cavo.work_description}"
+                                                                       name="work_description[]">
+                                    </td>
+                                    <td data-cell-header="근무시작일">
+                                        <div class="calander-box" style="padding: 0">
+                                            <input type="text" class="datepicker" readonly placeholder="날짜선택"
+                                                   name="work_start_date[]" value="" style="width: 150px; height: 40px; border-radius: 0;
+                                           background-position-x: 123px; background-position-y: 10px; cursor: pointer;"
+                                                   th:value="${cavo.work_start_date}"/>
+                                        </div>
+                                    </td>
+                                    <td data-cell-header="근무종료일">
+                                        <div class="calander-box" style="padding: 0">
+                                            <input type="text" class="datepicker" readonly placeholder="날짜선택"
+                                                   name="work_end_date[]" value="" style="width: 150px; height: 40px; border-radius: 0;
+                                           background-position-x: 123px; background-position-y: 10px; cursor: pointer;"
+                                                   th:value="${cavo.work_end_date}"/>
+                                        </div>
+                                    </td>
+                                    <td style="padding: 0.5rem 0">
+                                        <button class="case case1 deleteInfo" onclick="deleteLine(this)">지우기</button>
+                                    </td>
+
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="overflow: hidden">
+                        <div style="margin-top: 40px; float: left">
+                            <span class="sub_title">활동경력</span>
+                        </div>
+                    </div>
+                    <div class="table table-responsive">
+                        <table>
+                            <tbody>
+                            <tr style="padding-top: 20px; height: 75px">
+                                <th scope="row" class="txt-left" style="width: 20% !important;">
+                                    <span class="essential-txt" title="필수항목" style="margin-left: 60px;">활동경력</span>
+                                </th>
+                                <td data-cell-header="활동경력" class="txt-left" style="width: 80%">
+                                <textarea name="carer_description" placeholder="경력 내용 기입" class="txtInfo2"
+                                          th:text="${spvo != null? spvo.carer_description : ''}"></textarea>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="overflow: hidden">
+                        <div style="margin-top: 40px; float: left">
+                            <span class="sub_title">특기사항</span>
+                        </div>
+                    </div>
+                    <div class="table table-responsive">
+                        <table>
+                            <tbody>
+                            <tr style="padding-top: 20px; height: 75px">
+                                <th scope="row" class="txt-left" style="width: 20% !important;">
+                                    <span class="essential-txt" title="필수항목" style="margin-left: 60px;">특기사항</span>
+                                </th>
+                                <td data-cell-header="특기사항" class="txt-left" style="width: 80%">
+                                <textarea name="special_note_description" placeholder="경력 내용 기입" class="txtInfo2"
+                                          th:text="${spvo != null? spvo.special_note_description : ''}"></textarea>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </form>
+
+                <div class="btn-holder">
+                    <button class="btn btn-2 hover-opacity prev_btn">
+                        <span>◀ 이전 단계</span>
+                    </button>
+
+                    <em style="padding-top: 15px"> 2 / 4</em>
+
+                    <button class="btn btn-2 hover-opacity next_btn">
+                        <span>다음 단계 ▶</span>
+                    </button>
+
+                </div>
+
+                <!-- 임시저장 모달창 -->
+                <div class="modal">
+                    <div class="modal__background">
+                        <div class="modal_body2">
+                            <div class="dmui_dialog" style="left: 161.5px; top: 429.5px;">
+                                <div class="dmui_dialog_content LsimplePopup applicationchangeConfirm width280"
+                                     style="outline: none;" tabindex="-1">
+                                    <div class="dmui_dialog_header"><h1 class="dmui_dialog_title">신청서 저장 안내</h1></div>
+                                    <div class="dmui_dialog_body" tabindex="0">
+                                        <div class="saveIcon">
+                                            <img src="../img/app/saveicon.png">
+                                        </div>
+                                        <div class="LblockPopupMain applicationchangeConfirm" style="height:80px;">
+                                            <p class="LtextCenter"><strong><br> 저장하지 않고 이동하실 경우,
+                                                <br>변경된 내용은 반영되지 않습니다.</strong></p>
+                                        </div>
+                                        <p><strong>저장하시겠습니까?</strong></p>
+                                    </div>
+                                </div>
+                                <div class="dmui_dialog_footer">
+                                    <span><button class="dmui_dialog_footer_btn save">저장</button></span>
+                                    <span><button class="dmui_dialog_footer_btn cancel">저장 안함</button></span>
+                                </div>
+                                <div class="dmui_dialog_btn"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</th:block>
+
+<script th:inline="javascript">
+
+    var ctId = `[[${caList.size()}]]`;
+    // <!--경력추가-->
+
+    var n = ctId;
+
+    $('#caAddBtn').click(function () {
+        console.log(ctId);
+
+        var career = '<tr style="cursor: pointer">'
+        career += '<td data-cell-header="회사"><input type="text" class="input-wrap" name="company_name[]" required></td>'
+        career += '<td data-cell-header="경력구분" style="text-align: left">'
+        career += '<div class="radio1">'
+        career += '<input type="radio" name="carer_typeList[' + ctId + ']" id="radio-1' + ctId + '" value="CA">'
+        career += '<label class="custom-control-label" for="radio-1' + ctId + '">법정감정인 경력</label></div>'
+        career += '<div class="radio2" style="margin-top: 3px">'
+        career += '<input type="radio" name="carer_typeList[' + ctId + ']" id="radio-2' + ctId + '" value="OT" checked>'
+        career += '<label class="custom-control-label" for="radio-2' + ctId + '">기타 경력</label></div></td>'
+        career += '<td data-cell-header="부서"><input type="text" class="input-wrap" style="width: 120px" name="work_department[]" required></td>'
+        career += '<td data-cell-header="직책"><input type="text" class="input-wrap" style="width: 120px" name="work_position[]" required></td>'
+        career += '<td data-cell-header="수행업무"><input type="text" class="input-wrap" style="width: 180px" name="work_description[]" required></td>'
+        career += '<td data-cell-header="근무시작일">'
+        career += '<div class="calander-box" style="padding: 0">'
+        career += '<input type="text" class="datepicker" readonly placeholder="날짜선택"'
+        career += 'name="work_start_date[]" value="" required style="width: 150px; height: 40px; border-radius: 0; background-position-x: 123px; background-position-y: 10px; cursor: pointer;"/></div></td>'
+        career += '<td data-cell-header="근무종료일">'
+        career += '<div class="calander-box" style="padding: 0">'
+        career += '<input type="text" class="datepicker" readonly placeholder="날짜선택"'
+        career += 'name="work_end_date[]" value="" required style="width: 150px; height: 40px; border-radius: 0; background-position-x: 123px; background-position-y: 10px; cursor: pointer;"/></div></td>'
+        career += '<td style="padding: 0.5rem 0">';
+        career += '<button class="case case1 deleteInfo" onclick="deleteLine(this)">지우기</button>';
+        career += '</td>';
+        career += '</tr>';
+
+        $('#careerTable').append(career);
+        ctId++;
+        n++;
+
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd',
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        });
+        $(".datepicker").prop('readonly', false);
+    })
+
+    // <!--모달창 : 저장-->
+    const modal = document.querySelector('.modal');
+    let x = 0;
+
+    $(".prev_btn").click(function () {
+        modal.style.display = 'block';
+        x = 1;
+        $("#xField").val(x);
+    })
+    $(".next_btn").click(function () {
+        modal.style.display = 'block';
+        x = 2;
+        $("#xField").val(x);
+    })
+
+    $(".save").click(function () {
+
+        if(n <= 0){
+            alert('경력 사항을 최소 1개는 입력해야 저장 가능합니다');
+            return;
+        }
+
+        var form = document.forms["actionForm"];
+        form.submit();
+
+        x = 0;
+        $("#xField").val(x);
+    })
+
+    $(".cancel").click(function () {
+        if (x == 1) {
+            $(location).attr("href", "../app/info");
+        } else {
+            $(location).attr("href", "../app/edu");
+        }
+        x = 0;
+    })
+
+    $(".dmui_dialog_btn").click(function () {
+        modal.style.display = 'none';
+    })
+
+
+    function deleteLine(obj) {
+        var tr = $(obj).parent().parent();
+        tr.remove();
+        n--;
+    }
+
+</script>
+
+</html>
+

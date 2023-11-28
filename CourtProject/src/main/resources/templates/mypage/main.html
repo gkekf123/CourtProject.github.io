@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" th:href="@{./../../css/mypage/mypage.css}"/>
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+  <div class="wrap">
+    <!-- main_con  -->
+    <div id="main_con">
+      <div id="nav_menu">
+        <div id="lnb">
+          <h2 class="title">Mypage</h2>
+          <div class="menu">
+            <ul>
+              <li><a href="/mypage/main">나의 정보관리</a>
+              </li>
+              <li><a href="/mypage/status">나의 신청현황</a>
+              </li>
+              <li><a href="/mypage/history">나의 활동내역</a>
+              </li>
+              <li><a href="/mypage/pause">중지 및 해제신청</a>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <div id="contents">
+
+          <style>
+        @media screen and (max-width: 1024px) {
+          .table-responsive > table > tbody > tr td[data-cell-header]:before {
+            width: 30%;
+            margin: 0 0 0 0;
+            vertical-align: unset;
+          }
+        }
+        .table-responsive > table > tbody > tr:hover {
+          background-color: #e6f8ff;
+        }
+        @media screen and (min-width: 1100px) {
+          #select-box-margin-left-10 {
+            margin-left: 6px;
+          }
+        }
+      </style>
+      <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+
+
+      <article id="detail-content">
+
+
+          <div class="heading-wrap container">
+            <h3 class="heading1">
+              <span>나의 정보 관리</span>
+            </h3>
+          </div>
+
+          <!-- 본문컨텐츠 영역 -->
+          <div class="container">
+          
+			<article id="detail-content">
+			<div class="container">
+			
+			
+			  <div class="box box1">
+			    <p>기록하신 개인정보는 개인정보보호법에 의거 철저하게 보호됩니다.</p>
+			  </div>
+			
+			  <h4 class="heading2">회원정보 변경 및 탈퇴</h4>
+			
+			  <div class="table table-responsive">
+			    <table>
+			
+			      <colgroup>
+			        <col style="width:30%;">
+			        <col style="width:70%;">
+			      </colgroup>
+			      <form action="deleteForm" id="del" name="delete" method="post">
+					  <input type="hidden" name="user_proper_num" th:value="${userVO.user_proper_num}"/>
+			      <tbody>
+			        <tr>
+			          <th scope="row" class="txt-left">
+			            <label for="cvl_id">아이디</label>
+			          </th>
+			          <td data-cell-header="아이디" class="txt-left">
+			               <span id="cvl_id">[[${userVO.user_id}]]</span>
+			               
+			          </td>
+			        </tr>
+			        <tr>
+			          <th scope="row" class="txt-left">
+			            <span>성명</span>
+			          </th>
+			          <td data-cell-header="성명" class="txt-left">
+			          	<span id="cvl_nm">[[${userVO.user_name}]]</span>
+			          </td>
+			        </tr>
+			        
+			        <tr>
+			          <th scope="row" class="txt-left">
+			            <span>비밀번호</span>
+			          </th>
+			          <td data-cell-header="전화번호" class="txt-left">
+			          	<input id="pw" type="password"/>
+			          	<input id="user_pw" hidden th:value="${userVO.user_pw}"/>
+			          </td>
+			        </tr>
+			        <tr>
+			          <th scope="row" class="txt-left">
+			            <span>휴대폰번호</span>
+			          </th>
+			          <td data-cell-header="휴대폰번호" class="txt-left">
+						<span id="cvl_cel">[[${userVO.user_phone}]]</span>
+			          </td>
+			        </tr>
+			        <tr>
+			          <th scope="row" class="txt-left">
+			            <span>이메일</span>
+			          </th>
+			          <td data-cell-header="이메일" class="txt-left">
+			            <span id="cvl_mail" th:text="|${userVO.user_email_f}@${userVO.user_email_b}|"></span>
+			          </td>
+			        </tr>
+			       
+			        <tr>
+			          <th scope="row" class="border-none txt-left">
+			            <label for="address1">주소</label>
+			          </th>
+			          <td data-cell-header="주소" class="txt-left">
+			            <span id="cvl_zip_addr" th:text="|[ ${userVO.user_ar_zonecode} ]  ${userVO.user_ar} ${userVO.user_ar_detail}|"/>
+			          </td>
+			        </tr>
+			      </tbody>
+			      </form>
+			    </table>
+			  </div>
+			
+			  <div class="btn-wrap txt-center" 
+			  	   style=" margin-bottom: 20px; margin-top: 20px;">
+			    <div class="btn-style-wrap btn-style-wrap2">
+			      <a href="#" id="modify" class="btn-style btn-style39 btn-style-icon-none">
+			        <span>회원정보 변경</span>
+			      </a>
+			    </div>
+			    <div class="btn-style-wrap btn-style-wrap1" >
+			      <a href="#" id="leave" class="btn-style btn-style39 btn-style-icon-none" style="background-color: #8c8c8c; border: #8c8c8c;">
+			        <span>회원탈퇴</span>
+			      </a>
+			    </div>
+			  </div>
+			</div>
+			</article>
+			          
+          
+          </div>
+          <!-- //본문컨텐츠 영역 -->
+        </form>
+      </article>
+    </div>
+    </div>
+    <!-- //main_con  -->
+  </div>
+
+</th:block>
+
+<!-- 회원정보 변경-->
+<script>
+	//const user_pw1 = document.getElementById("user_pw").value;	
+	const user_id = document.getElementById("cvl_id").innerHTML;	
+	const modify = document.getElementById("modify");
+	//console.log(user_id)
+	modify.onclick = function(e){
+		const pw = document.getElementById("pw").value;
+		e.preventDefault();
+		//if(user_pw1 == pw){
+		//	window.location.href = "../mypage/modify";
+		//} else {
+		//	alert("잘못된 비밀번호 입니다. 비밀번호를 확인하세요");
+		//}
+		$.ajax({
+					url : "checkPw",
+					method : "POST",
+					data : {
+						"checkpw" : pw
+						
+					},
+					success : (data)=>{
+						if(data){
+							//비밀번호 맞았을 경우
+							window.location.href = "../mypage/modify";
+						} else {
+							//틀린 경우
+							alert("잘못된 비밀번호 입니다. 비밀번호를 확인하세요");
+						}
+					},
+					error : (status,error)=>{
+						console.log(status, error);
+					}
+				})
+	}
+	
+</script>
+
+
+<!-- 회원탈퇴-->
+<script>
+	const user_pw2 = document.getElementById("user_pw").value;	
+	const leave = document.getElementById("leave");
+	const del = document.getElementById("del");
+	
+	leave.onclick = function(e){
+		const pw = document.getElementById("pw").value;
+		e.preventDefault();
+		
+		$.ajax({
+					url : "checkPw",
+					method : "POST",
+					data : {
+						"checkpw" : pw
+						
+					},
+					success : (data)=>{
+						if(data){
+							//비밀번호 맞았을 경우
+							if(confirm("탈퇴하시겠습니까?")){
+								del.submit();
+							}
+						} else {
+							//틀린 경우
+							alert("잘못된 비밀번호 입니다. 비밀번호를 확인하세요");
+						}
+					},
+					error : (status,error)=>{
+						console.log(status, error);
+					}
+				})
+		
+	}
+	
+</script>
+
+<script th:inline="javascript">
+	var msg = '[[${msg}]]';
+
+	if(msg != 'null') {
+		alert(msg);
+	}
+</script>
+
+
+</html>

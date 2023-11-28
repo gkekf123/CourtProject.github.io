@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.court.proj.notice.NoticeMapper">
+
+<!-- 리스트 불러오기 -->
+<select id="getList" resultType="NoticeVO">
+    select tb3.*,
+           tb15.admin_name
+    from TB_003 tb3
+    join TB_015 tb15 on tb15.admin_proper_num = tb3.admin_proper_num
+    <where>
+        <if test="cri.searchContent != null and cri.searchContent != '' and cri.searchContent != 'null'">
+            <choose>
+                <when test="cri.searchContent =='searchAll'">
+                    OR (notice_title like concat('%', #{cri.searchContent2}, '%')
+                    OR notice_content like concat('%', #{cri.searchContent2}, '%'))
+                </when>
+                <when test="cri.searchContent =='serachNotice_title'">
+                    OR notice_title like concat('%', #{cri.searchContent2}, '%')
+                </when>
+                <when test="cri.searchContent =='serachNotice_content'">
+                    OR notice_content like concat('%', #{cri.searchContent2}, '%')
+                </when>
+            </choose>
+        </if>
+    </where>
+    order by notice_Date desc
+    <if test="cri.pageStart != null and cri.amount != null">
+        LIMIT #{cri.pageStart}, #{cri.amount}
+    </if>
+</select>
+
+<!-- 토탈 불러오기 -->
+<select id="getTotal" resultType="int">
+    SELECT COUNT(*) FROM TB_003
+    <where>
+        <if test="cri.searchContent != null and cri.searchContent != '' and cri.searchContent != 'null'">
+            <choose>
+                <when test="cri.searchContent =='searchAll'">
+                    OR (notice_title like concat('%', #{cri.searchContent2}, '%')
+                    OR notice_content like concat('%', #{cri.searchContent2}, '%'))
+                </when>
+                <when test="cri.searchContent =='serachNotice_title'">
+                    OR notice_title like concat('%', #{cri.searchContent2}, '%')
+                </when>
+                <when test="cri.searchContent =='serachNotice_content'">
+                    OR notice_content like concat('%', #{cri.searchContent2}, '%')
+                </when>
+            </choose>
+        </if>
+    </where>
+</select>
+	<!--  게시물 등록 하기 -->
+	<insert id="noticeReg">
+		INSERT INTO TB_003 (admin_proper_num, notice_title, notice_content)
+		VALUES (
+				#{admin_proper_num}, 
+				#{notice_title}, 
+				#{notice_content}
+				)
+	</insert>
+	
+	<!-- 게시물 자세히보기  -->
+	<select id="getDetail" resultType="NoticeVO">
+	
+		select tb3.*,
+			   tb15.admin_name
+        from TB_003 tb3
+        join TB_015 tb15 on tb15.admin_proper_num = tb3.admin_proper_num
+        where notice_proper_num = #{notice_proper_num};
+	
+	</select>
+
+	<!-- 게시물 수정 update -->
+	<update id="noticeModify">
+	
+		update TB_003
+		set notice_title = #{notice_title},
+			notice_content = #{notice_content},
+			admin_proper_num = #{admin_proper_num}
+		where notice_proper_num = #{notice_proper_num}
+	
+	
+	</update>
+	
+	<!-- 게시물 삭제 -->
+	
+	<delete id="noticeDel">
+		
+		DELETE FROM TB_003
+		WHERE notice_proper_num = #{notice_proper_num}
+
+
+	
+	</delete>
+	
+	
+
+
+</mapper>

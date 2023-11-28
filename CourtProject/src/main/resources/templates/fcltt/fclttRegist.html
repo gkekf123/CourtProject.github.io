@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" th:href="@{./../css/fcltt/fcltt.css}" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script th:src="@{./../js/fcltt/fcltt.js}"></script>
+
+
+</head>
+
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+	<div class="wrap">
+		<div id="main_con">
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">조력자확인</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub">
+							<li style="display: bolck !important;"><a href="/fcltt/fclttList">조력자 등재명단</a></li>
+							<li style="display: bolck !important;"><a href="/fcltt/pause">조력자 활동신청관리</a></li>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div id="contents">
+				<form name="fclttRegistForm" action="fclttRegistForm" method="post">
+					<input type="hidden" name="trial_fcltt_proper_num" th:value="${vo.trial_fcltt_proper_num}">
+					<div class="heading-wrap container">
+						<h3 class="heading1">
+							<span style="margin-bottom: 20px;">재판조력자 등재</span>
+						</h3>
+
+						<div class="table table-responsive">
+							<table>
+								<caption>
+									재판조력자등재
+								</caption>
+
+								<colgroup>
+									<col style="width: 30%">
+									<col style="width: 70%">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">
+											<span class="txt-left">사용자고유번호</span>
+										</th>
+										<td data-cell-header="사용자고유번호" class="txt-left">
+											<input name="user_proper_num" th:value="${vo.user_proper_num}"
+												class="cm_inptxt" type="text" readonly style="border: none;">
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">
+											<span class="txt-left">이름</span>
+										</th>
+										<td data-cell-header="성명" class="txt-left">
+											<input name="user_name" th:value="${vo.user_name}" class="cm_inptxt"
+												type="text" readonly style="border: none;">
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">
+											<span>휴대폰번호</span>
+										</th>
+										<td data-cell-header="휴대폰번호" class="txt-left">
+											<div class="user_phone" style="display: inline-block">
+												<div class="user_phone">
+													<input name="user_phone" maxlength="4" id="cvl_cel1"
+														th:value="${vo.user_phone}" class="cm_inptxt" title="휴대폰번호 앞자리"
+														readonly style="border: none;" type="text" />
+												</div>
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">
+											<span class="essential-txt" title="조력자분류">조력자 분류</span>
+										</th>
+										<td data-cell-header="조력자분류" class="txt-left">
+											<input name="trial_fcltt_main_code"
+												th:value="${vo.trial_fcltt_main_code + ' > ' + vo.trial_fcltt_description}"
+												class="cm_inptxt" type="text" readonly
+												style="border: none; width: 100%;">
+											<input type="hidden" class="fcltt_email" name="user_email_f"
+												th:value="${vo.user_email_f}">
+											<input type="hidden" class="fcltt_email" name="user_email_b"
+												th:value="${vo. user_email_b}">
+											<input type="hidden" class="aplcn_dtls_proper_num" name="aplcn_dtls_proper_num"
+												th:value="${vo. aplcn_dtls_proper_num}">
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">
+											<span>법원지정</span>
+										</th>
+										<td data-cell-header="법원" class="txt-left">
+											<input type="radio" name="court_proper_num" id="court1"
+												th:value="${court_proper_num1}">
+											<label for="court1" onclick="selectRadio('court1')">[[${vo.court_proper1}]]
+											</label>
+											<input type="radio" name="court_proper_num" id="court2"
+												th:value="${court_proper_num2}">
+											<label for="court2" onclick="selectRadio('court2')">
+												[[${vo.court_proper2}]]</label>
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">
+											<span>기타 내용</span>
+										</th>
+										<td data-cell-header="accept_etc" class="txt-left">
+											<textarea rows="4" cols="50" class="accept_etc" id="accept_etc2"
+												name="accept_etc" style="width: 550px; height: 150px;"></textarea>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="fclttRegist_btn">
+							<button type="button" id="fcltt_btn_submit" class="fcltt_btn1">등록</button>
+							<button type="button" id="fcltt_btn_no" onclick="btn_no()" class="fcltt_btn2">취소</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+	</div>
+</th:block>
+
+<script>
+	function selectRadio(id) {
+		document.getElementById(id).checked = true;
+	}
+
+	const fcltt_btn1 = document.getElementById("fcltt_btn_submit");
+	fcltt_btn1.onclick = () => {
+		document.fclttRegistForm.submit();
+	}
+
+
+	/*const fcltt_btn1 = document.getElementById("fcltt_btn_submit");
+	fcltt_btn1.onclick = () => {
+		// 1. 폼을 제출합니다.
+		document.fclttRegistForm.submit();
+	
+		// 2. 이메일 본문에 삽입할 데이터 가져오기
+		const email = document.querySelector(".fcltt_email").value;
+		const userName = document.querySelector(".cm_inptxt[name='user_name']").value;
+	
+		// 3. 이메일을 보냅니다.
+		const emailBody = `
+			<html>
+			<body>
+				<h1>${userName}님 축하드립니다</h1>
+				<p>
+					지원하신 재판조력자 공고에 합격되어 등재 되셨습니다.<br/>
+					자세한 내용은 사이트내에 마이페이지에서 확인하실 수 있습니다.<br/>
+					감사합니다
+				</p>
+			</body>
+			</html>`;
+	
+		fetch('/email/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: `to=hyemin0629@naver.com&subject=재판조력자로 등재되었습니다.&text=${emailBody}`,
+		})
+		.then(response => response.text())
+		.then(data => console.log(data))
+		.catch(e => console.log('이메일 전송 실패: ' + e));
+	}
+	*/
+
+	const btn_no = () => {
+		window.location.href = "/fcltt/fclttRegist";
+	}
+
+
+</script>
+
+
+
+</html>

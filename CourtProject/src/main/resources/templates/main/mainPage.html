@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+
+
+
+	<link rel="stylesheet" th:href="@{./../css/main/main.css}" />
+	<script th:src="@{./../js/main/main.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-element-bundle.min.js"></script>
+	<style>
+		body {
+			background-color: rgb(246, 246, 246);
+		}
+
+		@media (max-width: 1400px) {
+			faqList {
+				width: 70%;
+			}
+		}
+	</style>
+
+</head>
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap2})}">
+
+
+
+
+	<div class="main_body">
+
+		<div class="wrap2">
+			<div>
+				<article id="main_article">
+					<div class="main_section visual" style="border-bottom: 0px solid #ccc;">
+
+						<div class="main_wrap">
+							<div class="boxL" data-aos="fade-right">
+								<h1><strong>국민</strong>과 <strong>함께</strong>하는 <br>
+									<strong class="t2">재판조력자</strong>
+								</h1>
+								<p><strong>공정성과 </strong> 정확성을 위한 <strong>도움의 손길</strong></p>
+								<hr />
+
+							</div>
+							<div class="boxR" data-aos="fade-left" data-aos-delay="300">
+
+								<div class="main_search">
+									<a href="/info/info">
+										<strong>재판조력자란?</strong>
+										<p>재판조력자 제도안내</p>
+
+									</a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</article>
+
+
+				<div class="warp2 wrap3">
+					<div class="box2" style="background-color: #ccc;">
+						<!--공고-->
+						<swiper-container class="mySwiper" pagination="true" pagination-clickable="true"
+							slides-per-view="4" space-between="0" free-mode="true" autoplay="true"
+							autoplay-delay="4000">
+							<th:block th:each="vo1, status : ${list1}">
+								<swiper-slide>
+									<div class="main_slid_notice">
+										<ul class="notice_lists">
+											<li class="notice_li" style="height: 600px; width: 60%">
+												<a th:href="'/announce/announceDetail?id=' + ${vo1.announce_proper_num}"
+													title="">
+
+													<span class="div">모집공고</span>
+													<dl>
+														<dt>
+															[<span th:text="${vo1.trial_fcltt_description}"></span>]
+														</dt>
+														<dd style="font-size: 15px;">
+															<p>[[${vo1.announce_start_date}]] ~
+
+																[[${vo1.announce_end_date}]]</p><br /><br /><br />
+														</dd>
+														<dd class="oh"
+															style="white-space: normal; font-size: 16px; overflow: hidden;text-overflow: ellipsis; max-height: 6em; line-height: 1.2em; color : #777777">
+															 <span th:utext="${vo1.announce_content}"></span>
+														</dd>
+													</dl>
+												</a>
+											</li>
+										</ul>
+									</div>
+								</swiper-slide>
+							</th:block>
+						</swiper-container>
+					</div>
+					<div class="swiper-button-prev"></div>
+					<!-- 다음 버튼 -->
+					<div class="swiper-button-next"></div>
+
+
+
+					<!-- FAQ 게시물 -->
+					<div class="faqList">
+						<ul class="faqList_left">
+
+							<li class="faq_left1" style="overflow: hidden; margin-bottom: 10px;">
+								<h3 onclick="main_notice_view()" class="main_notice"
+									style="border-bottom: 3px solid rgb(128, 128, 128); width: 100px; float: left; text-align: center; cursor: pointer;">
+									공지사항</h3>
+								<h3 onclick="main_faq_view()" class="main_faq"
+									style="border-bottom: 3px solid rgb(240, 240, 240); width: 100px; float: left; margin-left: 10px; text-align: center;cursor: pointer;">
+									FAQ</h3>
+								<a class="main_noticeLink" href="/notice/noticeList"><img
+										src="../../img/main/faq_btn.png"></a>
+								<a class="main_faqList" href="/faq/faqList"><img src="../../img/main/faq_btn.png"></a>
+							</li>
+							<!-- 탭 한 상태에 따라 공지-->
+							<li th:each=" vo2, status : ${list2}" class="notice_left">
+								<a th:href="'/notice/noticeDetail?notice_proper_num=' +${vo2.notice_proper_num}">
+									<h4>[공지]</h4>[[${vo2.notice_title}]] <span
+										style="text-align: right; float: right;">[[${vo2.notice_date}]] </span>
+								</a>
+							</li>
+
+							<!-- 탭 한 상태에 따라 FAQ -->
+							<li th:each="vo3, status : ${list3}" class="faq_left faq_none">
+								<a th:href="'/faq/faqList?divVal='+ ${vo3.faq_proper_num}">
+									<h3>Q</h3>[[${vo3.faq_ask_content}]]<br />
+								</a>
+							</li>
+
+						</ul>
+
+						<ul class="faqList_right">
+
+							<li class="faq_right">
+								<a href="https://www.scourt.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/대법원.png">
+									</div>
+									<p>대법원</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="http://ecfs.scourt.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/전자소송.png">
+									</div>
+									<p>전자소송</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="http://glaw.scourt.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/법률정보.png">
+									</div>
+									<p>종합법률정보</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="http://www.iros.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/등기소.png">
+									</div>
+									<p>인터넷등기소</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="https://data.iros.go.kr/" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/등기광장.png">
+									</div>
+									<p>등기정보광장</p>
+								</a>
+							</li>
+
+							<li class="faq_right">
+								<a href="https://wrs.scourt.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/기록열람.png">
+									</div>
+									<p>기록열람</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="https://www.gov.kr/portal/main/nologin" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/정부2.png">
+									</div>
+									<p>정부24</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="https://ekt.scourt.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/전자공탁.png">
+									</div>
+									<p>전자공탁</p>
+								</a>
+							</li>
+							<li class="faq_right">
+								<a href="https://gamjung.scourt.go.kr" target="_blank">
+									<div class="main_logo_img">
+										<img src="../../img/main/감정인.png">
+									</div>
+									<p>온라인감정인</p>
+								</a>
+							</li>
+
+
+						</ul>
+					</div>
+
+				</div>
+
+			</div>
+			<!--//////////////////////////모달창 작업////////////////////////////////////-->
+			<div>
+				<!-- The Modal -->
+				<div id="popup_layer" style="border-radius: 8px;">
+
+					<div class="popup_box" style="border-radius: 8px;">
+
+						<!--팝업 컨텐츠 영역-->
+						<div class="popup_cont" style="text-align: center;">
+
+							<h2>[[${modalContent[0]}]]</h2><br />
+							<div style="text-align: left;   line-height: 2;">
+								<h4 th:utext="${modalContent[1]}"> <br /><br /> <br /><br /> <br /></h4>
+								<h5 th:utext="${modalContent[2]}">></h5>
+							</div>
+
+							<img src="../../img/korean/layout/court_main_icon.png" style="height: 30px; width: 130px;">
+						</div>
+						<!--팝업 버튼 영역-->
+
+						<div class="popup_btn">
+							<!--하루동안 보지않기-->
+							<a id="chk_today" href="javascript:closeToday();" class="close_day">하루동안 열지 않기</a>
+							<a href="javascript:closePop();">닫기</a>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+
+
+
+
+			<script>
+				// 쿠키 생성
+				function setCookie(name, value, expiredays) {  // 쿠키저장
+					var todayDate = new Date();  //date객체 생성 후 변수에 저장
+					todayDate.setDate(todayDate.getDate() + expiredays);
+
+					// 중간 결과 디버깅
+					console.log("name: " + name);
+					console.log("value: " + value);
+					console.log("expiredays: " + expiredays);
+					console.log("todayDate: " + todayDate.toUTCString());
+					// 시간지정(현재시간 + 지정시간)
+					document.cookie = name + "=" + value + "; path=/; expires=" + todayDate.toUTCString() + ";"
+					//위 정보를 쿠키에 굽는다
+				}
+				$(function () {
+					$(".popup_box").draggable({containment: 'parent', scroll: false}); // 레이어 팝업 창 드래그 가능
+					//{containment:'parent', scroll:false} 화면 영역 밖으로 드래그 안됌.
+
+					if (document.cookie.indexOf("popToday=close") < 0) {      // 쿠키 저장여부 체크
+						document.getElementById("popup_layer").style.display = "block";
+					} else {
+						document.getElementById("popup_layer").style.display = "none";
+					}
+				});
+
+				//오늘하루만보기 닫기버튼 스크립트
+				function closeToday() {
+					setCookie("popToday", "close", 1);
+					$("#popup_layer").css("display", "none");
+					document.getElementById("popup_layer").style.display = "none";
+				}
+				//그냥 닫기버튼 스크립트
+				function closePop() {
+					document.getElementById("popup_layer").style.display = "none";
+				}
+			</script>
+
+		</div>
+		<!--모달차 끝-->
+	</div>
+
+	</div>
+</th:block>
+
+
+<!--	<script>
+			$(".relatedSystem").each(function () {
+				$(".relatedSystem .rTit .moreBtn").click(function () {
+					$(".relatedSystem ul li.mHide").toggleClass("mShow");
+					$(this).toggleClass("mHideHidden");
+				});
+			});
+		</script>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

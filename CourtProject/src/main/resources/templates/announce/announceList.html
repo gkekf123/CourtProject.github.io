@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+    <!-- wrap start -->
+    <div class="wrap">
+        <!-- main_con start  -->
+        <div id="main_con">
+            <div id="nav_menu">
+                <div id="lnb">
+                    <h2 class="title">모집공고</h2>
+                    <div class="menu">
+                        <ul>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">모집공고</a>
+                                <ul class="sub" style="display: none;">
+                                    <li sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_JURIS','ROLE_COURT')"><a href="../announce/announceRegist">모집공고 등록</a></li>
+                                    <li><a href="../announce/announceList">모집공고 목록</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">공지사항</a>
+                                <ul class="sub" style="display: none;">
+                                    <li sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_JURIS','ROLE_COURT')"><a href="../notice/noticeRegist">공지사항 등록</a></li>
+                                    <li><a href="../notice/noticeList">공지사항 목록</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-sub"><a href="#" title="이용문의 닫기 (열림)">FAQ</a>
+                                <ul class="sub" style="display: none;">
+                                    <li sec:authorize="hasAnyRole('ROLE_SUPERADMIN','ROLE_JURIS','ROLE_COURT')"><a href="../faq/faqRegist">FAQ 등록</a></li>
+                                    <li><a href="../faq/faqList">FAQ 목록</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div id="contents">
+
+                <style>
+                    @media screen and (max-width: 1024px) {
+                        .table-responsive > table > tbody > tr td[data-cell-header]:before {
+                            width: 30%;
+                            margin: 0 0 0 0;
+                            vertical-align: unset;
+                        }
+                    }
+
+                    .table-responsive > table > tbody > tr:hover {
+                        background-color: #e6f8ff;
+                    }
+
+                    @media screen and (min-width: 1100px) {
+                        #select-box-margin-left-10 {
+                            margin-left: 6px;
+                        }
+                    }
+                </style>
+                <article id="detail-content">
+                    <form id="listForm" name="listForm" action="AnnounceForm" method="get">
+                        <div class="heading-wrap container">
+                            <h3 class="heading1">
+                                <span>재판 조력자 모집공고</span>
+                            </h3>
+                        </div>
+
+                        <!-- 본문컨텐츠 영역 start -->
+                        <div class="container">
+                            <div class="box box1">
+                                <p>재판 조력자를 모집하는 공고문 입니다 .<br/>검색되지 않거나 오프라인으로만 접수되는 서식들은
+                                    <!-- <a href="" class="blank-new"> -->
+                                    <a class="blank-new"
+                                       href="https://gamjung.scourt.go.kr/ogi/servlet/OGISuperSvl?cmd=ogi510.OGI511s01Cmd"
+                                       title="온라인감정인공고" target="_blank">
+                                        온라인감정인 신청
+                                    </a>
+                                    에서 다운받을 수 있습니다.
+                                </p>
+                            </div>
+
+                            <!-- 분류 탭 start -->
+                            <div class="tab-wrap">
+                                <ul class="tab tab1 outlineIE" style="width: 80%; height: 80%; margin: 0 10%;">
+                                    <li id="all" class="classify">
+                                        <a href="#" id="clickWhole">
+                                            <span>전체</span>
+                                        </a>
+                                    </li>
+
+                                    <li id="trial" class="classify">
+                                        <a href="#" id="clickTrial">
+                                            <span>조력자</span>
+                                        </a>
+                                    </li>
+
+                                    <li id="translator" class="classify">
+                                        <a href="#" id="clickTranslator">
+                                            <span>통번역인</span>
+                                        </a>
+                                    </li>
+
+                                    <li id="mediator" class="classify">
+                                        <a href="#" id="clickMediator">
+                                            <span>조정위원</span>
+                                        </a>
+                                    </li>
+
+                                    <li id="psychologist" class="classify">
+                                        <a href="#" id="clickPsychologist">
+                                            <span>전문심리위원</span>
+                                        </a>
+                                    </li>
+
+                                    <li id="counselor" class="classify">
+                                        <a href="#" id="clickCounselor">
+                                            <span>상담위원</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <!-- 분류 탭 end -->
+
+                            <div class="tab-wrap">
+                                <ul class="tab tab2"></ul>
+                            </div>
+
+                            <!-- 검색 start -->
+                            <div class="searchform searchform2">
+                                <div class="searchform-wrap">
+                                    <div class="select-box">
+                                        <label for="search_field"></label>
+                                        <select class="info-select" id="search_field" name="searchField"
+                                                title="검색조건을 선택해주세요.">
+                                            <option value="searchAll">전체</option>
+                                            <option value="searchTitle">제목</option>
+                                            <option value="searchCon">내용</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="search-input-wrap">
+                                        <div class="input-wrap">
+                                            <input type="text" name="search_query" value="" class="inputContent"
+                                                   placeholder="검색어를 입력해주세요" title="검색어를 입력해주세요" id="search_cont"/>
+                                        </div>
+                                        <button type="button" class="search-btn">
+                                            <i class="xi-search"></i>
+                                            <span class="sr-only">검색</span>
+                                        </button>
+                                    </div>
+                                    <!-- 검색 end -->
+
+                                    <!-- 게시글 보기 수 -->
+                                    <div class="select-box" id="select-box-margin-left-10">
+                                        <label for="view_cnt"></label>
+                                        <select name="view_cnt" id="view_cnt" class="info-select" title="게시판 목록보기 갯수선택"
+                                                style="min-width: 170px">
+                                            <!-- onchange="chgViewCount(this.value);" -->
+                                            <option value="10" selected=" selected">10개씩 보기</option>
+                                            <option value="20">20개씩 보기</option>
+                                            <option value="50">50개씩 보기</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- //searchform searchform2 end -->
+
+                            <!-- table-t-wrap start -->
+                            <div class="table-t-wrap">
+                                <div class="total-num"><strong>총 게시글 <em id="totalElement"></em>건</strong></div>
+                                <!-- 달력 start -->
+                                <div class="calander-box">
+                                    <input type="text" class="datepicker" readonly placeholder="모집시작일자" id="startDate"
+                                           value=""/> -
+                                    <input type="text" class="datepicker" readonly placeholder="모집종료일자" id="endDate"
+                                           value=""/>
+                                    <button type="button" class="search-btn" id="searchDateBtn">
+                                        <i class="xi-search"></i>
+                                        <span class="sr-only">찾기</span>
+                                    </button>
+                                </div>
+                                <!-- 달력 end -->
+                            </div>
+                            <!-- //table-t-wrap end -->
+                        </div>
+                    </form>
+
+                    <!-- 게시판 시작 부분 start -->
+                    <div class="table table-responsive">
+                        <table>
+                            <caption>
+                                번호, 대분류, 중분류, 소분류, 모집기간, 진행상황, 신청의 대한
+                                정보 제공
+                            </caption>
+                            <colgroup>
+                                <col style="width: 10%"/>
+                                <col style="width: 28%"/>
+                                <col style="width: 27%"/>
+                                <col style="width: 11.666%"/>
+                                <col style="width: 11.666%"/>
+                                <col style="width: 11.666%"/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th scope="col">번호</th>
+                                <th scope="col">모집유형</th>
+                                <th scope="col">제목</th>
+                                <th scope="col">모집기간</th>
+                                <th scope="col">진행상황</th>
+                                <th scope="col">신청</th>
+                            </tr>
+                            </thead>
+                            <tbody id="announceListId">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 게시판 시작 부분 end -->
+
+                    <!-- 페이지네이션 -->
+                    <div class="pager">
+
+                    </div>
+            <!-- //본문컨텐츠 영역 end -->
+            </article>
+        </div>
+    </div>
+    <!-- //main_con end -->
+    </div>
+    <!-- wrap end -->
+</th:block>
+<script th:src="@{./../js/announce/announceTrial.js}"></script>
+<script th:src="@{./../js/announce/announceList.js}"></script>
+
+<script th:inline="javascript">
+    var msg = `[[${msg}]]`;
+    if (msg !== 'null') {
+        alert(msg);
+    }
+
+</script>
+
+</html>

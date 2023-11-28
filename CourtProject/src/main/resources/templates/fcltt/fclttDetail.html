@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" th:href="@{./../css/fcltt/fcltt.css}" />
+	<script th:src="@{./../js/fcltt/fcltt.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<!--<th:block th:replace="~{./include/basicLayout :: setContent(~{::.wrap})}">
+
+
+	<div class="wrap">
+		 main_con  
+		<div id="main_con">
+			<div id="nav_menu">
+				<div id="lnb">
+					<h2 class="title">조력자 확인</h2>
+					<div class="menu">
+						<ul>
+							<li class="has-sub">
+							<li style="display: bolck !important;"><a href="/fcltt/fclttRegist">조력자 등재</a></li>
+							<li style="display: bolck !important;"><a href="/fcltt/fclttList">조력자 등재명단</a></li>
+							<li style="display: bolck !important;"><a href="/fcltt/pause">조력자 활동신청관리</a></li>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+			<div id="contents">
+
+				<style>
+					@media screen and (max-width: 1024px) {
+						.table-responsive>table>tbody>tr td[data-cell-header]:before {
+							width: 30%;
+							margin: 0 0 0 0;
+							vertical-align: unset;
+						}
+					}
+
+					.table-responsive>table>tbody>tr:hover {
+						background-color: #e6f8ff;
+					}
+
+					@media screen and (min-width: 1100px) {
+						#select-box-margin-left-10 {
+							margin-left: 6px;
+						}
+					}
+				</style>
+			</div>
+		</div>
+
+
+		<div id="popup_layer2">
+			<div class="popup_box2">
+				팝업 컨텐츠 영역
+				<div class="popup_cont2" style="overflow: hidden;">
+					<div class="popup_cont2_title">
+						<p>조력자 상세정보</p>
+					</div>
+					<div class="popup_contText">
+						<h3 id="fcltt_h3"> 재판조력자</h3>
+						<h2 id="fcltt_h2">김혜민</h2>
+						<h3 id="fcltt_h3">현재 : 활동중</h3>
+						<p id="fcltt_p_right">등재번호: 3 </p>
+					</div>
+					<div class="fcltt_cont_top" style="width: 50%; float:left;">
+						<table>
+							<colgroup>
+								<col style="width: 30%" />
+								<col style="width: 70%" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>조력자분류 </th>
+									<td> 통역 > 통번역가</td>
+								</tr>
+								<tr>
+									<th>법원 </th>
+									<td> 서울 > 대법원</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="fcltt_cont_top" style="width: 50%; float:right;">
+						<h3></h3>
+						<table>
+							<colgroup>
+								<col style="width: 30%" />
+								<col style="width: 70%" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>휴대전화 </th>
+									<td>010-6777-0486</td>
+								</tr>
+								<tr>
+									<th>이메일 </th>
+									<td> hyem08111@gmail.com</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="fcltt_cont_left" style="width: 48%;float: left;">
+						<h3>학력정보</h3>
+						<table>
+							<colgroup>
+								<col style="width: 40%" />
+								<col style="width: 40%" />
+								<col style="width: 20%" />
+							</colgroup>
+							<thead>
+								<tr style="border-bottom: 1px solid #777; ">
+									<th scope="col">학교</th>
+									<th scope="col">전공</th>
+									<th scope="col">학위</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td data-cell-header="번호">OOO 학교</td>
+									<td data-cell-header="민원서식명">OOO 전공</td>
+									<td data-cell-header="법원명">박사</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="fcltt_cont_left" style="width: 48%; float: right;">
+						<h3>참여재판이력</h3>
+						<table>
+							<colgroup>
+								<col style="width: 40%" />
+								<col style="width: 40%" />
+								<col style="width: 20%" />
+							</colgroup>
+							<thead>
+								<tr style="border-bottom: 1px solid #777;">
+									<th scope="col">재판번호</th>
+									<th scope="col">출석일자</th>
+									<th scope="col">완료여부</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td data-cell-header="번호">1234</td>
+									<td data-cell-header="민원서식명">2003.09.10</td>
+									<td data-cell-header="법원명">완료</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="fcltt_cont_left" style="width: 48%; float: left;">
+						<h3>자격증정보</h3>
+						<table>
+							<colgroup>
+								<col style="width: 30%" />
+								<col style="width: 70%" />
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>자격증명</th>
+									<td>정보처리기사</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="fcltt_cont_left" style="width: 48%; float: right;">
+						<h3>경력정보</h3>
+						<table>
+							<colgroup>
+								<col style="width: 40%" />
+								<col style="width: 40%" />
+								<col style="width: 20%" />
+							</colgroup>
+							<thead>
+								<tr style="border-bottom: 1px solid #777;">
+									<th scope="col">회사명/활동기관</th>
+									<th scope="col">경력구분</th>
+									<th scope="col">부서</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td data-cell-header="번호">현대</td>
+									<td data-cell-header="민원서식명">CA</td>
+									<td data-cell-header="법원명">경영</td>
+								</tr>
+							</tbody>
+
+						</table>
+					</div>
+
+
+				</div>
+				<hr style="width: 3px; margin: 10px 0;"/ >
+							<div class="popup_btn22"><a href="javascript:closePop2();">닫기</a></div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+</th:block>
+-->
+
+<body>
+	<div class="">
+		<div class="aHl"></div>
+		<div id=":qa" tabindex="-1"></div>
+		<div id=":ts" class="ii gt"
+			jslog="20277; u014N:xr6bB; 1:WyIjdGhyZWFkLWY6MTc3NzYwMTc1MTgwNDM3NjEwMiIsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsW11d; 4:WyIjbXNnLWY6MTc3NzYwMTc1MTgwNDM3NjEwMiIsbnVsbCxbXSxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxudWxsLG51bGwsbnVsbCxbXSxbXSxbXV0.">
+			<div id=":tt" class="a3s aiL ">
+				<div class="adM">
+				</div>
+				<div>
+					<div class="adM">
+					</div>
+					<div
+						style="background:#ffffff;margin:0;padding:0;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif">
+						<div class="adM">
+						</div>
+						<div
+							style="background:#ffffff;margin:0 auto;padding:0;width:100%;max-width:600px;letter-spacing:-1px;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif;box-sizing:border-box">
+							<div class="adM">
+							</div>
+							<table width="100%" style="margin:0;padding:0;max-width:600px" border="0" cellspacing="0"
+								cellpadding="0">
+								<tbody>
+									<tr>
+										<td height="12"></td>
+									</tr>
+
+									<tr>
+										<td style="background:#f6f7fb;border-radius:20px 20px 0 0;padding:0 16px">
+											<table width="100%" style="margin:0;padding:0" border="0" cellspacing="0"
+												cellpadding="0">
+												<tbody>
+													<tr>
+														<td height="48"></td>
+													</tr>
+													<tr>
+														<td
+															style="background:#fff;border-radius:10px;padding:24px 40px 48px">
+															<table width="100%"
+																style="margin:0;padding:0;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif"
+																border="0" cellspacing="0" cellpadding="0">
+																<tbody>
+																	<tr>
+																		<td align="center"
+																			style="padding:0 0 16px;border-bottom:1px solid #dee1ea;color:#222;font-size:20px;font-weight:bold;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif;line-height:24px;letter-spacing:-0.5px">
+																			재판조력자 신청결과
+																		</td>
+																	</tr>
+																	<tr>
+																		<td style="padding:0;text-align:center">
+																			<table width="100%"
+																				style="margin:0;padding:0;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif"
+																				border="0" cellspacing="0"
+																				cellpadding="0">
+																				<tbody>
+																					<tr>
+																						<td align="left"
+																							style="margin:0;padding:0">
+																							<div
+																								style="padding:24px 0 16px;border-bottom:1px solid #dee1ea;color:#222;font-size:13px;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif;line-height:18px">
+																								<p
+																									style="margin:0;padding:16px 0 0;color:rgb(128, 128, 128);font-size:12px;line-height:18px;letter-spacing:-0.5px;text-align:left">
+																									<br /><br />
+																									김혜민님<br /><br /><br />
+																									지원하신 공고의 평가 결과
+																									합격되었습니다.<br /><br />
+																									사이트내에<a
+																										style="font-size:14px; font-weight: 700; text-decoration: none;color:rgb(128, 128, 128);"
+																										href="http://localhost:8585/user/mypage">
+																										마이페이지</a>에서 등재
+																									여부를
+																									확인하실 수
+																									있습니다.<br /><br />
+																									당신의 뛰어난 능력으로, 재판
+																									과정에서 공정성을 유지하는 데
+																									기여하실 것을
+																									기대합니다.<br /><br />
+																									감사합니다.<br /><br /><br />
+																								</p>
+																							</div>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+													</tr>
+													<tr>
+														<td bgcolor="#8d919e">
+															<table style="margin:0;padding:0;width:100%" border="0"
+																cellspacing="0" cellpadding="0">
+																<tbody>
+																	<tr>
+																		<td
+																			style="margin:0;padding:16px;text-align:left">
+																			<p
+																				style="margin:0;padding:0;color:#e6e9f2;font-size:11px;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif;line-height:16px;letter-spacing:-1px">
+
+																				<a style="text-decoration: none;color:#e6e9f2;"
+																					href="http://localhost:8585/main/main">재판조력자
+																					홈페이지<br></a>
+																				주소 :서울특별시 강남구 테헤란로 7길 7 재판조력자 서비스센터
+																			</p>
+																			<p
+																				style="margin:0;padding:0;color:#e6e9f2;font-size:11px;font-family:AppleSDGothicNeo-Regular,Malgun Gothic,'\00b9d1\00c740\00ace0\00b515','\00b3cb\00c6c0',dotum,sans-serif;line-height:16px;letter-spacing:-1px">
+																				Copyright(c)Ministry of Employment and
+																				Labor. All rights reserved.</p>
+																		</td>
+																	</tr>
+																	<tr>
+																		<td height="48"></td>
+																	</tr>
+																</tbody>
+															</table>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+						</div>
+					</div>
+
+					<img height="0" width="0" border="0"
+						src="https://ci6.googleusercontent.com/proxy/H15_w6u57QdeZqZW-zxbDp0YvoJ8AzQnsJVoW18Txn3_u3GRoPKeZ9yg2Atrz-Rh4pdrPi0IB7VkWhjMYkRNrX0eMS7mxJTFLrhxBNRl3AET4h15piDS5-x74BXaUQlWKZi8=s0-d-e1-ft#http://eventmailtrack.saramin.co.kr:80/9I-112635I-41E-8272822389I-4uPmuPzeI-4I-3"
+						class="CToWUd" data-bit="iit">
+				</div>
+				<div class="yj6qo"></div>
+				<div class="adL">
+				</div>
+			</div>
+		</div>
+		<div id=":tx" class="ii gt" style="display:none">
+			<div id=":q6" class="a3s aiL "></div>
+		</div>
+		<div class="hi"></div>
+	</div>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
